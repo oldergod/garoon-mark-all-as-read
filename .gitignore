@@ -1,0 +1,6 @@
+node_modules/
+app/css/
+app/javascript/bundle.min.js
+app/javascript/kintone.soy.js
+npm-debug.log
+
