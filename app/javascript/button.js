@@ -32,6 +32,7 @@ garoon.maar.Button.prototype.getAndMarkAllAsRead_ = function() {
 };
 
 garoon.maar.Button.getUnreadNotifications_ = function() {
+  // TODO benoit go promise with fetch()
   goog.net.XhrIo.send('/g/v1/notification/list', garoon.maar.Button.extractNotifications_, 'POST', goog.json.serialize({
     'start': '2015-10-15T00:00:00Z'
   }), {
@@ -44,19 +45,20 @@ garoon.maar.Button.NOTIFICATIONS;
 
 garoon.maar.Button.extractNotifications_ = function(evt) {
   var jsonResponse = evt.target.getResponseJson();
-  if (jsonResponse.success) {
+  console.log('response:', jsonResponse);
+  if (!jsonResponse.success) {
     garoon.maar.Button.NOTIFICATIONS = [];
     for (var key in garoon.maar.Notification.MODULE) {
       if (!goog.array.isEmpty(jsonResponse[key])) {
         var moduleId = garoon.maar.Notification.MODULE[key];
         goog.array.forEach(jsonResponse[key], function(rawNotification) {
-          garoon.maar.Button.NOTIFICATIONS.push(new garoon.maar.Notification(moduleId, rawNotification.id));
+          garoon.maar.Button.NOTIFICATIONS.push(new garoon.maar.Notification(moduleId, rawNotification.id, rawNotification.url));
         });
       }
     }
     garoon.maar.Button.getRequestToken_();
   } else {
-    // something went wrong but what ? session time out maybe ?
+    console.log('something went wrong but what ? session time out maybe ?');
   }
 };
 

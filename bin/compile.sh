@@ -16,6 +16,7 @@ java -jar node_modules/google-closure-compiler/compiler.jar \
   --compilation_level="WHITESPACE_ONLY" \
   --formatting="PRETTY_PRINT" \
   --warning_level="VERBOSE" \
+  --externs="app/externs/url.js" \
   --jscomp_error="accessControls" \
   --jscomp_error="ambiguousFunctionDecl" \
   --jscomp_error="checkEventfulObjectDisposal" \
@@ -55,4 +56,4 @@ java -jar node_modules/google-closure-compiler/compiler.jar \
   app/javascript/** \
   node_modules/google-closure-library/closure/** \
   node_modules/google-closure-templates/javascript/*.js
-  
+

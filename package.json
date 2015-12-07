@@ -6,16 +6,16 @@
     "clean-js": "rm -rf app/javascript/*.soy.js && rm -f app/javascript/cs.js",
     "clean-css": "rm -f app/css/*",
     "clean": "npm run clean-js && npm run clean-css",
-    "compile": "./bin/compile.sh 2>&1",
+    "compile": "bash ./bin/compile.sh 2>&1",
     "js": "npm run clean-js && npm run compile",
     "css": "npm run clean-css && node-sass --include-path app/scss -o app/css app/scss/kintone.scss",
     "all": "npm run clean && npm run compile && npm run css"
   },
   "devDependencies": {
-    "google-closure-compiler": "^20150920.0.0",
-    "google-closure-library": "^20150920.0.0",
+    "google-closure-compiler": "^20151015.0.0",
+    "google-closure-library": "^20151015.0.0",
     "google-closure-templates": "^20150410.0.0",
-    "node-sass": "^3.4.0"
+    "node-sass": "^3.4.2"
   },
   "author": "oldergod",
   "repository": {
