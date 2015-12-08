@@ -6,12 +6,9 @@ goog.require('goog.ui.Component');
  * @param {string} moduleId
  * @param {number} item
  * @param {string} url
- * @param {goog.dom.DomHelper=} opt_domHelper
  * @constructor
- * @extends {goog.ui.Component}
  */
-garoon.maar.Notification = function(moduleId, item, url, opt_domHelper) {
-  garoon.maar.Notification.base(this, 'constructor', opt_domHelper);
+garoon.maar.Notification = function(moduleId, item, url) {
   /**
    * @private
    * @type {string}
@@ -30,7 +27,6 @@ garoon.maar.Notification = function(moduleId, item, url, opt_domHelper) {
    */
   this.url_ = url;
 };
-goog.inherits(garoon.maar.Notification, goog.ui.Component);
 
 /** main div name for notifications */
 garoon.maar.Notification.DIV_CLASSNAME = '.cloudHeader-grnNotification-item-grn';
@@ -41,11 +37,13 @@ garoon.maar.Notification.TITLE_CLASSNAME = '.cloudHeader-grnNotification-itemTit
  * @param {string} url
  */
 garoon.maar.Notification.findDomByUrl = function(url) {
-  var link = document.querySelector(garoon.maar.Notification.DIV_CLASSNAME + ' ' +
+  var query = garoon.maar.Notification.DIV_CLASSNAME + ' ' +
     garoon.maar.Notification.TITLE_CLASSNAME +
-    ' a[href="' + garoon.maar.util.parsePathnameAndSearch(url) + '"]');
+    ' a[href^="' + garoon.maar.util.parsePathnameAndSearch(url) + '"]';
+    // console.log('query is ', query);
+  var link = document.querySelector(query);
   if (link) {
-    // found it, link it and render
+    return link;
   } else {
     console.log('not found, we might refresh the ntf and if still unfound, give up');
   }

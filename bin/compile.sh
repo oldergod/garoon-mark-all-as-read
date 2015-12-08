@@ -13,7 +13,7 @@ java -jar node_modules/google-closure-compiler/compiler.jar \
   --closure_entry_point garoon.maar.contentScript.init \
   --only_closure_dependencies \
   --js_output_file app/javascript/cs.js \
-  --compilation_level="WHITESPACE_ONLY" \
+  --compilation_level="ADVANCED_OPTIMIZATIONS" \
   --formatting="PRETTY_PRINT" \
   --warning_level="VERBOSE" \
   --externs="app/externs/url.js" \
