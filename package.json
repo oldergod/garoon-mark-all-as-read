@@ -7,9 +7,12 @@
     "clean-css": "rm -f app/css/*",
     "clean": "npm run clean-js && npm run clean-css",
     "compile": "bash ./bin/compile.sh 2>&1",
+    "compile-dev": "bash ./bin/compile.sh dev 2>&1",
     "js": "npm run clean-js && npm run compile",
-    "css": "npm run clean-css && node-sass --include-path app/scss -o app/css app/scss/kintone.scss",
-    "all": "npm run clean && npm run compile && npm run css"
+    "js-dev": "npm run clean-js && npm run compile-dev",
+    "css": "npm run clean-css && node-sass --include-path app/scss -o app/css app/scss/cs.scss",
+    "all-dev": "npm run clean && npm run compile-dev && npm run css",
+    "all": "npm run clean-js && npm run compile && npm run css"
   },
   "devDependencies": {
     "google-closure-compiler": "^20151015.0.0",

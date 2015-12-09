@@ -9,11 +9,13 @@ java -jar node_modules/google-closure-templates/javascript/SoyToJsSrcCompiler.ja
   --srcs app/template/maar.soy \
   --outputPathFormat app/javascript/maar.soy.js
 
+COMPILATION_LEVEL=$( [ "$1" = dev ] && echo 'WHITESPACE_ONLY' || echo 'ADVANCED_OPTIMIZATIONS' )
+
 java -jar node_modules/google-closure-compiler/compiler.jar \
   --closure_entry_point garoon.maar.contentScript.init \
   --only_closure_dependencies \
   --js_output_file app/javascript/cs.js \
-  --compilation_level="ADVANCED_OPTIMIZATIONS" \
+  --compilation_level="$COMPILATION_LEVEL" \
   --formatting="PRETTY_PRINT" \
   --warning_level="VERBOSE" \
   --externs="app/externs/url.js" \

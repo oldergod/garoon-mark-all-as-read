@@ -6,9 +6,11 @@ goog.provide('garoon.maar.contentScript.init');
 
 // goog.require('garoon.maar.Button');
 goog.require('garoon.maar.Notification');
-goog.require('garoon.maar.util');
+goog.require('garoon.maar.util.notification');
 
 /**
+ * Init function called when Content Script is ready.
+ * Create Observer that adds MarkAsRead button to all ntf.
  */
 garoon.maar.contentScript.init = function() {
   var observer = new MutationObserver(function(mutations) {
@@ -30,6 +32,8 @@ garoon.maar.contentScript.init = function() {
 };
 
 /**
+ * get unread notifications, and add to their respective dom
+ * a Mark As Read button.
  */
 garoon.maar.contentScript.generateNtfMaarButtons = function() {
   garoon.maar.util.notification.xhr.getUnreadNotifications()
@@ -37,8 +41,4 @@ garoon.maar.contentScript.generateNtfMaarButtons = function() {
     .then(garoon.maar.util.notification.addNtfButtons);
 };
 
-setTimeout(function() {
-  // TODO benoit not need to render first but only when the update button is pressed. so we need to listen to either click on the <a #cloudHeader-grnNotificationTitle-grn> or some other thing.
-  garoon.maar.contentScript.init();
-}, 0);
-
+garoon.maar.contentScript.init();

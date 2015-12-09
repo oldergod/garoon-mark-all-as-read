@@ -1,4 +1,7 @@
-goog.provide('garoon.maar.util');
+/**
+ * @fileoverview Utilities.にXHJR系。
+ * @author Benoit Quenaudon https://github.com/oldergod
+ */
 goog.provide('garoon.maar.util.notification');
 goog.provide('garoon.maar.util.notification.xhr');
 goog.provide('garoon.maar.util.request');
@@ -9,19 +12,21 @@ goog.require('goog.json');
 goog.require('garoon.maar.Button');
 goog.require('garoon.maar.Notification');
 
-garoon.maar.util.parsePathnameAndSearch = function(urlAsString) {
-  var url = new URL(urlAsString);
-  return url.pathname + url.search;
-};
-
 /** @type {string} */
 garoon.maar.util.request.xhr.REQUEST_TOKEN;
 
+/**
+ * @return {Promise<string>}
+ */
 garoon.maar.util.request.fetchRequestToken = function() {
-  return garoon.maar.util.request.xhr.getRequestToken()
-    .then(garoon.maar.util.request.xhr.extractRequestToken);
+  return garoon.maar.util.request.xhr.getRequestToken();
 };
 
+/**
+ * If REQUEST_TOKEN is set, return it, otherwise get it through api.
+ * TODO Benoit manage error when token has expired
+ * @return {Promise<string>}
+ */
 garoon.maar.util.request.xhr.getRequestToken = function() {
   if (goog.isDefAndNotNull(garoon.maar.util.request.xhr.REQUEST_TOKEN)) {
     return Promise.resolve(garoon.maar.util.request.xhr.REQUEST_TOKEN);
@@ -60,26 +65,22 @@ garoon.maar.util.request.xhr.getRequestToken = function() {
       cache: cache,
       credentials: credentials
     }))
-    .then(garoon.maar.util.request.xhr.extractRequestToken, function(error) {
+    .then(function(response) {
+      if (response.ok) {
+        return response.text().then(function(responseText) {
+          garoon.maar.util.request.xhr.REQUEST_TOKEN = responseText.match(/[^>]+(?=<\/request_token>)/)[0];
+          return garoon.maar.util.request.xhr.REQUEST_TOKEN;
+        });
+      } else {
+        throw new TypeError()
+      }
+    }, function(error) {
       throw 'There has been a problem with your fetch operation: ' + error.message;
     });
 };
 
 /**
- * @param {Response} response
- */
-garoon.maar.util.request.xhr.extractRequestToken = function(response) {
-  if (response.ok) {
-    return response.text().then(function(responseText) {
-      garoon.maar.util.request.xhr.REQUEST_TOKEN = responseText.match(/[^>]+(?=<\/request_token>)/)[0];
-      return garoon.maar.util.request.xhr.REQUEST_TOKEN;
-    });
-  } else {
-    throw new TypeError()
-  }
-};
-
-/**
+ * @return {Promise<Object>}
  */
 garoon.maar.util.notification.xhr.getUnreadNotifications = function() {
   var url = '/g/v1/notification/list';
@@ -111,6 +112,8 @@ garoon.maar.util.notification.xhr.getUnreadNotifications = function() {
 };
 
 /**
+ * @param {Object} jsonResponse
+ * @return {Array<garoon.maar.Notification>}
  */
 garoon.maar.util.notification.xhr.extractNotifications = function(jsonResponse) {
   if (jsonResponse['success']) {
@@ -127,6 +130,7 @@ garoon.maar.util.notification.xhr.extractNotifications = function(jsonResponse) 
     return notifications;
   } else {
     console.log('something went wrong but what ? session time out maybe ?', jsonResponse);
+    throw 'extract failed';
   }
 };
 
@@ -136,14 +140,15 @@ garoon.maar.util.notification.xhr.extractNotifications = function(jsonResponse) 
 garoon.maar.util.notification.addNtfButtons = function(notifications) {
   var dom, button, notificationDiv, datetimeSpan;
   goog.array.forEach(notifications, function(notification) {
-    dom = garoon.maar.Notification.findDomByUrl(notification.getUrl());
+    dom = garoon.maar.Notification.findNodeByUrl(notification);
     if (dom) {
       button = new garoon.maar.Button(notification);
       notificationDiv = goog.dom.getAncestorByClass(dom, 'cloudHeader-grnNotification-itemTitle-grn');
       datetimeSpan = goog.dom.getFirstElementChild(notificationDiv);
       button.renderBefore(datetimeSpan);
     } else {
-      console.log('did not find dom for', notification.getUrl());
+      // TODO benoit set rules for specific links that do not match what is in the json
+      console.log('did not find dom for', notification);
     };
   });
 };
@@ -151,6 +156,7 @@ garoon.maar.util.notification.addNtfButtons = function(notifications) {
 /**
  * @param {string} requestToken
  * @param {garoon.maar.Notification} notification
+ * @return {Promise<boolean>}
  */
 garoon.maar.util.notification.xhr.postMarkAsRead = function(requestToken, notification) {
   var soapRequest = '<?xml version="1.0" encoding="UTF-8"?>' +
