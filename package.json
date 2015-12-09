@@ -12,7 +12,11 @@
     "js-dev": "npm run clean-js && npm run compile-dev",
     "css": "npm run clean-css && node-sass --include-path app/scss -o app/css app/scss/cs.scss",
     "all-dev": "npm run clean && npm run compile-dev && npm run css",
-    "all": "npm run clean-js && npm run compile && npm run css"
+    "all": "npm run clean-js && npm run compile && npm run css",
+    "tar-target": "tar cvzf target/maar.zip target/*",
+    "copy-files": "cp app/manifest.json target && cp app/css/cs.css target/css && cp app/javascript/{nodeps,cs}.js target/javascript",
+    "create-target": "rm -rf target && mkdir target && mkdir target/css && mkdir target/javascript",
+    "publish": "npm run create-target && npm run copy-files && npm run tar-target"
   },
   "devDependencies": {
     "google-closure-compiler": "^20151015.0.0",
