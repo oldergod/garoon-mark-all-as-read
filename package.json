@@ -14,7 +14,7 @@
     "all-dev": "npm run clean && npm run compile-dev && npm run css",
     "all": "npm run clean-js && npm run compile && npm run css",
     "tar-target": "tar cvzf target/maar.zip target/*",
-    "move-files": "cp app/manifest.json target && mv app/css/cs.css target/css && mv app/javascript/{nodeps,cs}.js target/javascript",
+    "move-files": "cp app/manifest.json target && mv app/css/cs.css target/css && mv app/javascript/cs.js target/javascript && cp app/javascript/nodeps.js target/javascript",
     "create-target": "rm -rf target && mkdir target && mkdir target/css && mkdir target/javascript",
     "publish": "npm run create-target && npm run move-files && npm run tar-target"
   },
