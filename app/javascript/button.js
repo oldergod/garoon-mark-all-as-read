@@ -111,7 +111,7 @@ garoon.maar.Button.adjustUnreadNotificationsNumber = function() {
     span.style.display = 'none';
   }
   var popup_notification_header = goog.dom.getElement('popup_notification_header');
-  if (unreadLeft < 3) {
+  if (unreadLeft < 8) {
     popup_notification_header.style.height = '';
   }
 };
