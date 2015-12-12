@@ -9,7 +9,8 @@ goog.provide('garoon.maar.util.request.xhr');
 
 goog.require('goog.dom');
 goog.require('goog.json');
-goog.require('garoon.maar.Button');
+goog.require('garoon.maar.FallbackButton');
+goog.require('garoon.maar.NtfButton');
 goog.require('garoon.maar.Notification');
 
 /** @type {string} */
@@ -135,25 +136,6 @@ garoon.maar.util.notification.xhr.extractNotifications = function(jsonResponse) 
 };
 
 /**
- * @param {Array<garoon.maar.Notification>} notifications
- */
-garoon.maar.util.notification.addNtfButtons = function(notifications) {
-  var dom, button, notificationDiv, datetimeSpan;
-  goog.array.forEach(notifications, function(notification) {
-    dom = garoon.maar.Notification.findNodeByUrl(notification);
-    if (dom) {
-      button = new garoon.maar.Button(notification);
-      notificationDiv = goog.dom.getAncestorByClass(dom, 'cloudHeader-grnNotification-itemTitle-grn');
-      datetimeSpan = goog.dom.getFirstElementChild(notificationDiv);
-      button.renderBefore(datetimeSpan);
-    } else {
-      // TODO benoit set rules for specific links that do not match what is in the json
-      console.log('did not find dom for', notification);
-    };
-  });
-};
-
-/**
  * @param {string} requestToken
  * @param {garoon.maar.Notification} notification
  * @return {Promise<boolean>}
@@ -219,4 +201,51 @@ garoon.maar.util.notification.asSoapParameter = function(notification) {
  */
 garoon.maar.util.request.asSoapParameter = function(requestToken) {
   return '<request_token>' + requestToken + '</request_token>';
+};
+
+garoon.maar.util.notification.SET_AS_NTF_BUTTONS = 'maar-set';
+
+/**
+ * @param {Array<garoon.maar.Notification>} notifications
+ */
+garoon.maar.util.notification.addNtfButtons = function(notifications) {
+  var aTag, button;
+  goog.array.forEach(notifications, function(notification) {
+    aTag = garoon.maar.Notification.findNodeByUrl(notification);
+    if (aTag) {
+      goog.dom.classlist.add(aTag, garoon.maar.util.notification.SET_AS_NTF_BUTTONS);
+      button = new garoon.maar.NtfButton(notification);
+      garoon.maar.util.notification.renderButton(aTag, button);
+    } else {
+      // TODO benoit set rules for specific links that do not match what is in the json
+      console.log('did not find aTag for', notification);
+    };
+  });
+};
+
+/**
+ */
+garoon.maar.util.notification.addFallbackButtons = function() {
+  var notificationsPopup = goog.dom.getElement(garoon.maar.Notification.DIVS_POPUP_ID);
+  var notificationDivs = notificationsPopup.getElementsByClassName(garoon.maar.Notification.DIV_CLASSNAME);
+  var query = '.' + garoon.maar.Notification.TITLE_CLASSNAME + ' a:not(.' + garoon.maar.util.notification.SET_AS_NTF_BUTTONS + ')';
+  var aTag, button, fetchUrl, notificationTitleDiv;
+  goog.array.forEach(notificationDivs, function(notificationDiv) {
+    aTag = notificationDiv.querySelector(query);
+    if (goog.isDefAndNotNull(aTag)) {
+      fetchUrl = aTag.pathname + aTag.search + aTag.hash;
+      button = new garoon.maar.FallbackButton(fetchUrl);
+      garoon.maar.util.notification.renderButton(aTag, button);
+    }
+  });
+};
+
+/**
+ * @param {Element} aTag
+ * @param {garoon.maar.Button} button
+ */
+garoon.maar.util.notification.renderButton = function(aTag, button) {
+  var notificationTitleDiv = goog.dom.getAncestorByClass(aTag, garoon.maar.Notification.TITLE_CLASSNAME);
+  var datetimeSpan = goog.dom.getFirstElementChild(notificationTitleDiv);
+  button.renderBefore(datetimeSpan);
 };

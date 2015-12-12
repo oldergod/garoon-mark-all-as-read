@@ -35,10 +35,12 @@ garoon.maar.Notification = function(moduleId, item, url) {
   this.url_ = new URL(url);
 };
 
+/** notifications parent popup id */
+garoon.maar.Notification.DIVS_POPUP_ID = 'popup_notification_header';
 /** main div name for notifications */
-garoon.maar.Notification.DIV_CLASSNAME = '.cloudHeader-grnNotification-item-grn';
+garoon.maar.Notification.DIV_CLASSNAME = 'cloudHeader-grnNotification-item-grn';
 /** title div name for notifications */
-garoon.maar.Notification.TITLE_CLASSNAME = '.cloudHeader-grnNotification-itemTitle-grn';
+garoon.maar.Notification.TITLE_CLASSNAME = 'cloudHeader-grnNotification-itemTitle-grn';
 
 /**
  * url から通知のnodeを検索する関数
@@ -46,8 +48,8 @@ garoon.maar.Notification.TITLE_CLASSNAME = '.cloudHeader-grnNotification-itemTit
  * @return {Element|undefined}
  */
 garoon.maar.Notification.findNodeByUrl = function(notification) {
-  var query = garoon.maar.Notification.DIV_CLASSNAME + ' ' +
-    garoon.maar.Notification.TITLE_CLASSNAME +
+  var query = '.' + garoon.maar.Notification.DIV_CLASSNAME + ' ' +
+    '.' + garoon.maar.Notification.TITLE_CLASSNAME +
     ' a[href^="' + notification.parsePathnameAndSearch() + '"]';
   // console.log('query is ', query);
   var link = document.querySelector(query);

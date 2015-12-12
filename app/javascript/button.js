@@ -4,7 +4,6 @@
  */
 goog.provide('garoon.maar.Button');
 
-goog.require('garoon.maar.Notification');
 goog.require('garoon.maar.soy');
 goog.require('goog.dom');
 goog.require('goog.dom.classlist');
@@ -14,19 +13,12 @@ goog.require('goog.soy');
 goog.require('goog.ui.Component');
 
 /**
- * @param {garoon.maar.Notification} notification
  * @param {goog.dom.DomHelper=} opt_domHelper
  * @constructor
  * @extends {goog.ui.Component}
  */
-garoon.maar.Button = function(notification, opt_domHelper) {
+garoon.maar.Button = function(opt_domHelper) {
   garoon.maar.Button.base(this, 'constructor', opt_domHelper);
-
-  /**
-   * @private
-   * @type {garoon.maar.Notification}
-   */
-  this.notification_ = notification;
 };
 goog.inherits(garoon.maar.Button, goog.ui.Component);
 
@@ -50,23 +42,7 @@ garoon.maar.Button.prototype.enterDocument = function() {
 /**
  * @param {goog.events.Event} event
  */
-garoon.maar.Button.prototype.markAsRead_ = function(event) {
-  // TODO benoit
-  // check token
-  // mark as read
-  // delete beautifully the dom
-  // dispose itself
-
-  garoon.maar.util.request.fetchRequestToken()
-    .then(this.postMarkAsRead_.bind(this))
-    .then(this.closeNotificationDom_.bind(this))
-    .then(this.disposeSelf_.bind(this))
-    .then(garoon.maar.Button.adjustUnreadNotificationsNumber, function(e) {
-      console.log('error', e);
-    });
-
-  event.stopPropagation();
-};
+garoon.maar.Button.prototype.markAsRead_ = goog.abstractMethod;
 
 /**
  * @param {string} requestToken
@@ -78,16 +54,22 @@ garoon.maar.Button.prototype.postMarkAsRead_ = function(requestToken) {
 
 /**
  */
-garoon.maar.Button.prototype.closeNotificationDom_ = function(markAsReadSucceeded) {
-  if (!markAsReadSucceeded) {
-    throw 'did not mark it as read';
-  }
+garoon.maar.Button.prototype.closeNotificationDom_ = function() {
   // find parent etc
   var notificationTopDiv = goog.dom.getAncestorByClass(this.getElement(), 'cloudHeader-grnNotification-item-grn');
   goog.dom.classlist.add(notificationTopDiv, 'maar-slide');
   setTimeout(function() {
     goog.dom.removeNode(notificationTopDiv);
   }, 600);
+};
+
+/**
+ */
+garoon.maar.Button.prototype.processAfterMarkAsRead = function() {
+  console.log(this);
+  this.closeNotificationDom_();
+  this.disposeSelf_();
+  garoon.maar.Button.adjustUnreadNotificationsNumber();
 };
 
 /**
