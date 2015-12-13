@@ -1,0 +1,40 @@
+.maar-content-wrapper {
+  float: right;
+  .maar-content {
+    border-radius: 50%;
+    border: 1px solid #aaa;
+    height: 22px;
+    width: 22px;
+    font-size: 25px;
+    padding: 0;
+    margin: 0;
+    color: #777;
+    line-height: 0;
+    cursor: pointer;
+    font-weight: 100;
+    font-family: -webkit-body;
+    transition: 200ms;
+    &:hover {
+      transform: rotate(540deg);
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+@keyframes slideout {
+  from {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(800px);
+  }
+}
+
+.maar-slide {
+  animation: slideout 600ms cubic-bezier(0.53, -0.32, 0.19, 0.99);
+  max-height: 500px;
+}
