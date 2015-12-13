@@ -1,25 +1,28 @@
-.maar-content-wrapper {
+.maar-cross-wrapper {
   float: right;
-  .maar-content {
-    border-radius: 50%;
-    border: 1px solid #aaa;
-    height: 22px;
-    width: 22px;
-    font-size: 25px;
-    padding: 0;
-    margin: 0;
-    color: #777;
-    line-height: 0;
-    cursor: pointer;
-    font-weight: 100;
-    font-family: -webkit-body;
-    transition: 200ms;
-    &:hover {
-      transform: rotate(540deg);
-    }
-    &:focus {
-      outline: none;
-    }
+  border-radius: 50%;
+  border: 1px solid #aaa;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  background: #eee;
+  line-height: 0;
+  cursor: pointer;
+}
+
+.maar-cross {
+  transition: 200ms;
+  transform: rotate(45deg);
+  align-self: center;
+  height: 15px;
+  width: 15px;
+  background: linear-gradient(to bottom, transparent 45%, #777 45%, #777 55%, transparent 55%), linear-gradient(to right, transparent 45%, #777 45%, #777 55%, transparent 55%);
+  &:hover {
+    transform: rotate(585deg);
+  }
+  &:active {
+    transform: rotate(630deg);
   }
 }
 

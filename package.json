@@ -10,7 +10,7 @@
     "compile-dev": "bash ./bin/compile.sh dev 2>&1",
     "js": "npm run clean-js && npm run compile",
     "js-dev": "npm run clean-js && npm run compile-dev",
-    "css": "npm run clean-css && node-sass --include-path app/scss -o app/css app/scss/cs.scss",
+    "css": "npm run clean-css && node-sass --output-style compressed --include-path app/scss -o app/css app/scss/cs.scss",
     "all-dev": "npm run clean && npm run compile-dev && npm run css",
     "all": "npm run clean-js && npm run compile && npm run css",
     "tar-target": "zip -r9 target/maar.zip target/*",
