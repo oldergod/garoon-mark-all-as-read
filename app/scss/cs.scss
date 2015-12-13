@@ -9,21 +9,21 @@
   background: #eee;
   line-height: 0;
   cursor: pointer;
-}
-
-.maar-cross {
   transition: 200ms;
   transform: rotate(45deg);
-  align-self: center;
-  height: 15px;
-  width: 15px;
-  background: linear-gradient(to bottom, transparent 45%, #777 45%, #777 55%, transparent 55%), linear-gradient(to right, transparent 45%, #777 45%, #777 55%, transparent 55%);
   &:hover {
     transform: rotate(585deg);
   }
   &:active {
     transform: rotate(630deg);
   }
+}
+
+.maar-cross {
+  align-self: center;
+  height: 15px;
+  width: 15px;
+  background: linear-gradient(to bottom, transparent 45%, #777 45%, #777 55%, transparent 55%), linear-gradient(to right, transparent 45%, #777 45%, #777 55%, transparent 55%);
 }
 
 @keyframes slideout {
