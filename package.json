@@ -16,7 +16,8 @@
     "tar-target": "zip -r9 target/maar.zip target/*",
     "copy-files": "cp app/manifest.json target && cp app/css/cs.css target/css && cp app/javascript/cs.js app/javascript/nodeps.js target/javascript",
     "create-target": "rm -rf target && mkdir target && mkdir target/css && mkdir target/javascript",
-    "publish": "npm run create-target && npm run copy-files && npm run tar-target"
+    "publish": "npm run create-target && npm run copy-files && npm run tar-target",
+    "compile-publish": "npm run all && npm run publish"
   },
   "devDependencies": {
     "google-closure-compiler": "^20151015.0.0",
