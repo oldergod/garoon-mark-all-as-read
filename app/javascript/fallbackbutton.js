@@ -28,10 +28,17 @@ goog.inherits(garoon.maar.FallbackButton, garoon.maar.Button);
  * @param {goog.events.Event} event
  */
 garoon.maar.FallbackButton.prototype.markAsRead_ = function(event) {
-  fetch(this.fetchUrl_, /** @type {RequestInit} */ ({
-      credentials: 'include'
-    }))
-  .then(this.processAfterMarkAsRead.bind(this));
+  this.fetch()
+    .then(this.processAfterMarkAsRead.bind(this));
 
   event.stopPropagation();
+};
+
+garoon.maar.FallbackButton.prototype.fetch = function() {
+  if (garoon.maar.Button.DEBUG) {
+    return Promise.resolve(true);
+  }
+  return fetch(this.fetchUrl_, /** @type {RequestInit} */ ({
+    credentials: 'include'
+  }));
 };

@@ -11,6 +11,7 @@ goog.require('goog.events.Event');
 goog.require('goog.net.XhrIo');
 goog.require('goog.soy');
 goog.require('goog.ui.Component');
+goog.require('goog.fx.dom');
 
 /**
  * @param {goog.dom.DomHelper=} opt_domHelper
@@ -21,6 +22,9 @@ garoon.maar.Button = function(opt_domHelper) {
   garoon.maar.Button.base(this, 'constructor', opt_domHelper);
 };
 goog.inherits(garoon.maar.Button, goog.ui.Component);
+
+/**/
+garoon.maar.Button.DEBUG = true;
 
 /**
  * @override
@@ -35,8 +39,7 @@ garoon.maar.Button.prototype.createDom = function() {
  */
 garoon.maar.Button.prototype.enterDocument = function() {
   garoon.maar.Button.base(this, 'enterDocument');
-  var callButton = goog.dom.getFirstElementChild(this.getContentElement());
-  this.getHandler().listen(callButton, goog.events.EventType.CLICK, this.markAsRead_);
+  this.getHandler().listen(this.getContentElement(), goog.events.EventType.CLICK, this.markAsRead_);
 };
 
 /**
@@ -55,18 +58,28 @@ garoon.maar.Button.prototype.postMarkAsRead_ = function(requestToken) {
 /**
  */
 garoon.maar.Button.prototype.closeNotificationDom_ = function() {
-  // find parent etc
   var notificationTopDiv = goog.dom.getAncestorByClass(this.getElement(), 'cloudHeader-grnNotification-item-grn');
-  goog.dom.classlist.add(notificationTopDiv, 'maar-slide');
+  // still good but problem when clicking on popup background which close the popup
+  // goog.dom.classlist.add(notificationTopDiv, 'maar-slide');
+  // setTimeout(function() {
+  //   goog.dom.removeNode(notificationTopDiv);
+  // }, 600);
+  // TODO benoit some hadoken?
+
+  var currentHeight = goog.style.getComputedStyle(notificationTopDiv, 'height');
+  notificationTopDiv.style.height = currentHeight;
+  setTimeout(function() {
+    goog.dom.classlist.add(notificationTopDiv, 'maar-fadeout');
+  }, 0);
   setTimeout(function() {
     goog.dom.removeNode(notificationTopDiv);
-  }, 600);
+    garoon.maar.Button.adjustPopupHeight();
+  }, 150);
 };
 
 /**
  */
 garoon.maar.Button.prototype.processAfterMarkAsRead = function() {
-  console.log(this);
   this.closeNotificationDom_();
   this.disposeSelf_();
   garoon.maar.Button.adjustUnreadNotificationsNumber();
@@ -92,8 +105,12 @@ garoon.maar.Button.adjustUnreadNotificationsNumber = function() {
     span.innerText = '';
     span.style.display = 'none';
   }
+};
+
+/**/
+garoon.maar.Button.adjustPopupHeight = function() {
   var popup_notification_header = goog.dom.getElement('popup_notification_header');
-  if (unreadLeft < 8) {
+  if (popup_notification_header.style.height !== '' && popup_notification_header.scrollHeight <= parseInt(popup_notification_header.style.height, 10) + 1) {
     popup_notification_header.style.height = '';
   }
 };

@@ -41,5 +41,8 @@ garoon.maar.NtfButton.prototype.markAsRead_ = function(event) {
  * @return {Promise<boolean>}
  */
 garoon.maar.NtfButton.prototype.postMarkAsRead_ = function(requestToken) {
+  if (garoon.maar.Button.DEBUG) {
+    return Promise.resolve(true);
+  }
   return garoon.maar.util.notification.xhr.postMarkAsRead(requestToken, this.notification_);
 };
