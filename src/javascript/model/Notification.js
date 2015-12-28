@@ -74,9 +74,9 @@ export default class Notification {
    * @return {Element?}
    */
   findNodeByUrl() {
-    let query = '.' + Notification.DIV_CLASSNAME + ' ' +
-      '.' + Notification.TITLE_CLASSNAME +
-      ' a[href^="' + this.parsePathnameAndSearch() + '"]';
+    let query = `.${Notification.DIV_CLASSNAME} ` +
+      `.${Notification.TITLE_CLASSNAME} ` +
+      `a[href^="${this.parsePathnameAndSearch()}"]`;
 
     return document.querySelector(query);
   }
@@ -125,7 +125,7 @@ export default class Notification {
    */
   static concatParams(searchObject, keys) {
     return keys.map(key =>
-      key + '=' + searchObject[key]
+      `${key}=${searchObject[key]}`
     ).join('&');
   }
 }

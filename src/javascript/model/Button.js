@@ -48,7 +48,7 @@ export default class Button {
   }
 
   closeNotificationDom_() {
-    let notificationTopDiv = this.element_.closest('.' + Notification.DIV_CLASSNAME);
+    let notificationTopDiv = this.element_.closest(`.${Notification.DIV_CLASSNAME}`);
     let currentHeight = window.getComputedStyle(notificationTopDiv).getPropertyValue('height');
     notificationTopDiv.style.height = currentHeight;
     setTimeout(() => {

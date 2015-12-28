@@ -33,7 +33,7 @@ export default class NotificationUtils {
           throw new TypeError();
         }
       }, error => {
-        throw 'There has been a problem with your fetch operation: ' + error.message;
+        throw `There has been a problem with your fetch operation: ${error.message}`;
       });
   }
 
@@ -74,8 +74,8 @@ export default class NotificationUtils {
 
   static addFallbackButtons() {
     let notificationsPopup = document.getElementById(Notification.DIVS_POPUP_ID);
-    let notificationDivs = notificationsPopup.querySelectorAll('.' + Notification.DIV_CLASSNAME);
-    let query = '.' + Notification.TITLE_CLASSNAME + ' a:not(.' + NotificationUtils.SET_AS_NTF_BUTTONS + ')';
+    let notificationDivs = notificationsPopup.querySelectorAll(`.${Notification.DIV_CLASSNAME}`);
+    let query = `.${Notification.TITLE_CLASSNAME} a:not(.${NotificationUtils.SET_AS_NTF_BUTTONS})`;
     let aTag, button, fetchUrl, notificationTitleDiv;
     // Chrome needs it.
     notificationDivs[Symbol.iterator] = Array.prototype[Symbol.iterator];
@@ -94,7 +94,7 @@ export default class NotificationUtils {
   }
 
   static renderButton(aTag, button) {
-    let notificationTitleDiv = aTag.closest('.' + Notification.TITLE_CLASSNAME);
+    let notificationTitleDiv = aTag.closest(`.${Notification.TITLE_CLASSNAME}`);
     let datetimeSpan = notificationTitleDiv.firstElementChild;
     button.renderBefore(datetimeSpan);
   }
@@ -167,7 +167,7 @@ export default class NotificationUtils {
           throw new TypeError();
         }
       }, error => {
-        throw 'There has been a problem with your fetch operation: ' + error.message;
+        throw `There has been a problem with your fetch operation: ${error.message}`;
       });
   }
 
@@ -219,7 +219,7 @@ export default class NotificationUtils {
           throw new TypeError();
         }
       }, error => {
-        throw 'There has been a problem with your fetch operation: ' + error.message;
+        throw `There has been a problem with your fetch operation: ${error.message}`;
       });
   }
 
@@ -228,7 +228,7 @@ export default class NotificationUtils {
    * @return {string}
    */
   static NotificationAsSoapParameter(notification) {
-    return '<notification_id module_id="' + notification.getModuleId() + '" item="' + notification.getItem() + '" />';
+    return `<notification_id module_id="${notification.getModuleId()}" item="${notification.getItem()}" />`;
   }
 
   /**
@@ -236,6 +236,6 @@ export default class NotificationUtils {
    * @return {string}
    */
   static RequestTokenAsSoapParameter(requestToken) {
-    return '<request_token>' + requestToken + '</request_token>';
+    return `<request_token>${requestToken}</request_token>`;
   }
 }
