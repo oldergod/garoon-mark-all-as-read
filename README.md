@@ -7,5 +7,4 @@
 ## アプリをビルド
 
 * npm install
-* npm run all
-* npm run publish
+* gulp
