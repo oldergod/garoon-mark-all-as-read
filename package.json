@@ -21,8 +21,7 @@
     "node-sass": "^3.4.2",
     "run-sequence": "^1.1.5",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.6.1"
+    "vinyl-source-stream": "^1.1.0"
   },
   "author": "oldergod",
   "repository": {

@@ -1,24 +1,23 @@
 var isProd = false;
-var gulp = require('gulp');
-var sourcemaps = require('gulp-sourcemaps');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var browserify = require('browserify');
-var watchify = require('watchify');
-var gutil = require('gulp-util');
-var babelify = require('babelify');
-var del = require('del');
-var license = require('gulp-license');
-var jshint = require('gulp-jshint');
-var sass = require('gulp-sass');
-var runSequence = require('run-sequence');
-var uglify = require('gulp-uglify');
-var zip = require('gulp-zip');
-var bump = require('gulp-bump');
+var gulp = require('gulp'),
+  babelify = require('babelify'),
+  browserify = require('browserify'),
+  buffer = require('vinyl-buffer'),
+  bump = require('gulp-bump'),
+  del = require('del'),
+  gutil = require('gulp-util'),
+  jshint = require('gulp-jshint'),
+  license = require('gulp-license'),
+  runSequence = require('run-sequence'),
+  sass = require('gulp-sass'),
+  source = require('vinyl-source-stream'),
+  sourcemaps = require('gulp-sourcemaps'),
+  uglify = require('gulp-uglify'),
+  zip = require('gulp-zip');
 
-var scssSourcePath = './app/scss/**/*';
-var jsSourcePath = './app/javascript/**/*';
-var contentScriptEntryPath = './app/javascript/contentScript.js';
+var scssSourcePath = './src/scss/**/*';
+var jsSourcePath = './src/javascript/**/*';
+var contentScriptEntryPath = './src/javascript/contentScript.js';
 
 gulp.task('jshint', function() {
   return gulp.src(jsSourcePath)
@@ -75,7 +74,7 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('copy-manifest', function() {
-  return gulp.src('./app/manifest.json')
+  return gulp.src('./src/manifest.json')
     .pipe(gulp.dest('./target'));
 });
 
@@ -92,11 +91,11 @@ gulp.task('bump', function() {
     }))
     .pipe(gulp.dest('./'));
 
-  return gulp.src('./app/manifest.json')
+  return gulp.src('./src/manifest.json')
     .pipe(bump({
       type: 'patch'
     }))
-    .pipe(gulp.dest('./app'));
+    .pipe(gulp.dest('./src'));
 });
 
 gulp.task('watch', function() {
