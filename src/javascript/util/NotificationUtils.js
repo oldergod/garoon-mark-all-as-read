@@ -74,11 +74,10 @@ export default class NotificationUtils {
 
   static addFallbackButtons() {
     let notificationsPopup = document.getElementById(Notification.DIVS_POPUP_ID);
-    let notificationDivs = notificationsPopup.querySelectorAll(`.${Notification.DIV_CLASSNAME}`);
+    let notificationDivs = Array.from(notificationsPopup.querySelectorAll(`.${Notification.DIV_CLASSNAME}`));
     let query = `.${Notification.TITLE_CLASSNAME} a:not(.${NotificationUtils.SET_AS_NTF_BUTTONS})`;
     let aTag, button, fetchUrl, notificationTitleDiv;
-    // Chrome needs it.
-    notificationDivs[Symbol.iterator] = Array.prototype[Symbol.iterator];
+    
     for (let notificationDiv of notificationDivs) {
       aTag = notificationDiv.querySelector(query);
       if (aTag != null) {

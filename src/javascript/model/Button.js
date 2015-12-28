@@ -24,9 +24,9 @@ export default class Button {
   }
 
   createDom() {
-    var crossWrapper = document.createElement('div');
+    let crossWrapper = document.createElement('div');
     crossWrapper.classList.add(Button.CROSS_WRAPPER_CLASSNAME);
-    var cross = document.createElement('div');
+    let cross = document.createElement('div');
     cross.classList.add(Button.CROSS_CLASSNAME);
     cross.title = '\u901A\u77E5\u3092\u65E2\u8AAD\u306B\u3059\u308B';
     crossWrapper.appendChild(cross);
@@ -71,7 +71,7 @@ export default class Button {
    * needed to reset the icon unread notification number.
    */
   static adjustUnreadNotificationsNumber() {
-    let span = document.querySelector('#notification_number');
+    let span = document.getElementById('notification_number');
     let unreadLeft = parseInt(span.innerText, 10);
     if (unreadLeft > 1) {
       span.innerText = (unreadLeft - 1).toString();
@@ -83,7 +83,7 @@ export default class Button {
   }
 
   static adjustPopupHeight() {
-    let popup_notification_header = document.querySelector('#popup_notification_header');
+    let popup_notification_header = document.getElementById('popup_notification_header');
     if (popup_notification_header.style.height !== '' && popup_notification_header.scrollHeight <= parseInt(popup_notification_header.style.height, 10) + 1) {
       popup_notification_header.style.height = '';
     }

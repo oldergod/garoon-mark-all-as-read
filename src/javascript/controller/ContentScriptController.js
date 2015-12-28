@@ -3,7 +3,7 @@ import NotificationUtils from '../util/NotificationUtils';
 export default class ContentScriptController {
 
   constructor() {
-    this.targetNode = document.querySelector('#popup_notification_header');
+    this.targetNode = document.getElementById('popup_notification_header');
 
     this.observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
