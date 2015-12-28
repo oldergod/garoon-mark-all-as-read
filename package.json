@@ -1,6 +1,6 @@
 {
   "name": "garoon-mark-all-as-read",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "description": "Garoonのすべての通知を既読にするクローム拡張アプリ。",
   "devDependencies": {
     "babel-preset-es2015": "^6.3.13",

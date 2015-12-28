@@ -106,10 +106,10 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', function() {
-  return runSequence('clean', ['styles', 'scripts'], 'copy-manifest', 'watch');
+  return runSequence('clean', ['styles', 'scripts', 'copy-manifest'], 'watch');
 });
 
 gulp.task('prod', function() {
   isProd = true;
-  return runSequence('clean', ['styles', 'scripts'], 'bump', 'copy-manifest', 'build');
+  return runSequence('clean', 'bump', 'build');
 });
