@@ -25,7 +25,7 @@ export default class FallbackButton extends Button {
     if (Button.DEBUG) {
       return Promise.resolve(true);
     }
-    return fetch(this.fetchUrl_, {
+    return window.fetch(this.fetchUrl_, {
       credentials: 'include'
     });
   }

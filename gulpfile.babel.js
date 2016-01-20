@@ -49,9 +49,8 @@ gulp.task('styles', function() {
 gulp.task('scripts', function() {
   var bundler = browserify(contentScriptEntryPath, {
     debug: !isProd
-  }).transform(babelify, {
-    presets: ["es2015"]
-  });
+  })
+  .transform(babelify);
 
   var b = bundler.bundle()
     .on('log', gutil.log.bind(gutil, 'Browserify Log'))
