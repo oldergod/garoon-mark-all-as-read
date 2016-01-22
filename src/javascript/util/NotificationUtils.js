@@ -43,15 +43,13 @@ export default class NotificationUtils {
     /*jshint -W069 */
     if (jsonResponse['success']) {
       let notifications = [];
-      let mobileId;
-      let generateAndPushNotifications = (rawNtf) => {
-        let ntf = new Notification(moduleId, rawNtf.id, rawNtf.url);
-        notifications.push(ntf);
-      };
       for (let key in Notification.MODULE) {
         if (jsonResponse[key].length !== 0) {
-          moduleId = Notification.MODULE[key];
-          jsonResponse[key].forEach(generateAndPushNotifications);
+          let moduleId = Notification.MODULE[key];
+          jsonResponse[key].forEach(rawNotification => {
+            let notification = new Notification(moduleId, rawNotification.id, rawNotification.url);
+            notifications.push(notification);
+          });
         }
       }
       return notifications;

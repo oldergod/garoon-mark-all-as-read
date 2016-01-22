@@ -7,7 +7,7 @@ export default class Button {
   }
 
   static get DEBUG() {
-    return false;
+    return true;
   }
 
   static get CROSS_WRAPPER_CLASSNAME() {
