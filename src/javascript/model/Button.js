@@ -78,7 +78,14 @@ export default class Button {
     } else {
       span.innerText = '';
       span.style.display = 'none';
+      // TODO(benoit) should do it with the api for each number, not only #issue-6
+      // We also should probably
+      // - recheck if there is or no left new unread ntf on the esever
+      //   - if yes, just click the reload button
+      //   - if no, just hide it (but still say garoon we 既読化 them)
       document.querySelector('#popup_notification_header .cloudHeader-grnNotification-update-grn').click();
+      // we close the notifications popup
+      // document.querySelector('.cloudHeader-dropdownMenu-grn').classList.remove('cloudHeader-dropdownMenu-open-grn');
     }
   }
 
