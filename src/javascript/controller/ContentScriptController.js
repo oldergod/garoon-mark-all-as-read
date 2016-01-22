@@ -4,6 +4,9 @@ export default class ContentScriptController {
 
   constructor() {
     this.targetNode = document.getElementById('popup_notification_header');
+    if (!this.targetNode) {
+      return;
+    }
 
     this.observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
@@ -17,6 +20,10 @@ export default class ContentScriptController {
   }
 
   observe() {
+    if (!this.observer) {
+      return;
+    }
+
     this.observer.observe(this.targetNode, {
       attributes: false,
       childList: true,

@@ -37,17 +37,21 @@ export default class NotificationUtils {
       });
   }
 
+
+
   static extractNotifications(jsonResponse) {
     /*jshint -W069 */
     if (jsonResponse['success']) {
       let notifications = [];
+      let mobileId;
+      let generateAndPushNotifications = (rawNtf) => {
+        let ntf = new Notification(moduleId, rawNtf.id, rawNtf.url);
+        notifications.push(ntf);
+      };
       for (let key in Notification.MODULE) {
         if (jsonResponse[key].length !== 0) {
-          let moduleId = Notification.MODULE[key];
-          jsonResponse[key].forEach(rawNotification => {
-            let notification = new Notification(moduleId, rawNotification.id, rawNotification.url);
-            notifications.push(notification);
-          });
+          moduleId = Notification.MODULE[key];
+          jsonResponse[key].forEach(generateAndPushNotifications);
         }
       }
       return notifications;
@@ -77,7 +81,7 @@ export default class NotificationUtils {
     let notificationDivs = Array.from(notificationsPopup.querySelectorAll(`.${Notification.DIV_CLASSNAME}`));
     let query = `.${Notification.TITLE_CLASSNAME} a:not(.${NotificationUtils.SET_AS_NTF_BUTTONS})`;
     let aTag, button, fetchUrl, notificationTitleDiv;
-    
+
     for (let notificationDiv of notificationDivs) {
       aTag = notificationDiv.querySelector(query);
       if (aTag != null) {
