@@ -4,6 +4,11 @@
   "description": "Garoonの通知を簡単に既読化できるクローム拡張アプリ。",
   "manifest_version": 2,
   "version": "0.2.4",
+  "background": {
+    "scripts": [
+      "scripts/chromereload.js"
+    ]
+  },
   "content_scripts": [
     {
       "matches": [
