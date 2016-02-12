@@ -15,6 +15,8 @@ export default class ContentScriptController {
         if (mutation.addedNodes.length > 1) {
           this.generateNtfMaarButtons();
         }
+
+        this.generateNtfMaarButtons();
       });
     });
   }
@@ -34,7 +36,11 @@ export default class ContentScriptController {
   generateNtfMaarButtons() {
     NotificationUtils.getUnreadNotifications()
       .then(NotificationUtils.extractNotifications)
+      .then(NotificationUtils.addAllTopButton)
       .then(NotificationUtils.addNtfButtons)
-      .then(NotificationUtils.addFallbackButtons);
+      .then(NotificationUtils.addFallbackButtons)
+      .catch(e => {
+        console.log(e);
+      });
   }
 }

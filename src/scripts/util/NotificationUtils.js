@@ -59,6 +59,12 @@ export default class NotificationUtils {
     }
   }
 
+  static addTopAllButton(notifications) {
+    NotiticationUtils.renderTopButton(new AllTopbutton(notifications));
+
+    return notifications;
+  }
+
   static addNtfButtons(notifications) {
     let aTag, button;
     notifications.forEach(notification => {
@@ -98,6 +104,11 @@ export default class NotificationUtils {
     let notificationTitleDiv = aTag.closest(`.${Notification.TITLE_CLASSNAME}`);
     let datetimeSpan = notificationTitleDiv.firstElementChild;
     button.renderBefore(datetimeSpan);
+  }
+
+  static renderTopButton(button) {
+// TODO(benoit) insert it at the right spot
+    button.renderBefore(document.getElementByClassName('cloudHeader-grnNotification-update-grn'));
   }
 
   static get REQUEST_TOKEN() {
