@@ -9,18 +9,20 @@
       "scripts/chromereload.js"
     ]
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "https://*.cybozu.com/g/*"
-      ],
-      "js": [
-        "scripts/contentScript.js"
-      ],
-      "css": [
-        "styles/contentScript.css"
-      ],
-      "run_at": "document_end"
-    }
+  "content_scripts": [{
+    "matches": [
+      "https://*.cybozu.com/g/*"
+    ],
+    "js": [
+      "scripts/contentScript.js"
+    ],
+    "css": [
+      "styles/contentScript.css"
+    ],
+    "run_at": "document_end"
+  }],
+  "web_accessible_resources": [
+    "assets/ic_clean_18dp.png",
+    "assets/ic_clean_all_18dp.png"
   ]
 }

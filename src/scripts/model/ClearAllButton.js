@@ -1,7 +1,7 @@
 import Button from './Button';
-import NotificationUtils from '../util/NotificationUtils';
+// import NotificationUtils from '../util/NotificationUtils';
 
-export default class AllTopButton extends Button {
+export default class ClearAllButton extends Button {
   constructor(notifications) {
     super();
 

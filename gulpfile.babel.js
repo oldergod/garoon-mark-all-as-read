@@ -20,11 +20,12 @@ import uglify from 'gulp-uglify';
 import watchify from 'watchify';
 import zip from 'gulp-zip';
 
-const scssSourcePath = './src/styles/**/*.scss';
-const jsSourcePath = './src/scripts/**/*.js';
+const stylesSourcePath = './src/styles/**/*.scss';
+const scriptsSourcePath = './src/scripts/**/*.js';
 const gulpfilePath = './gulpfile.babel.js';
 const manifestPath = './src/manifest.json';
 const manifestDebugPath = './src/manifest_debug.json';
+const assetsPath = './src/assets/**/*';
 
 const bundles = {
   'chromereload': {
@@ -82,7 +83,7 @@ function buildBundle(bundleName) {
 };
 
 gulp.task('jshint', () => {
-  return gulp.src([jsSourcePath, gulpfilePath])
+  return gulp.src([scriptsSourcePath, gulpfilePath])
     .pipe(jshint({
       browser: true,
       curly: true,
@@ -103,7 +104,7 @@ gulp.task('clean', done => {
 });
 
 gulp.task('styles', () => {
-  return gulp.src(scssSourcePath)
+  return gulp.src(stylesSourcePath)
     .pipe(sass({
       outputStyle: isProd ? 'compressed' : 'expanded'
     }).on('error', sass.logError))
@@ -127,8 +128,9 @@ gulp.task('watch', function() {
     'src/styles/**/*'
   ]).on('change', livereload.reload);
 
-  gulp.watch(scssSourcePath, ['styles']);
-  gulp.watch(manifestPath_(), ['copy-manifest']);
+  gulp.watch(stylesSourcePath, ['styles']);
+  gulp.watch(manifestPath_(), ['manifest']);
+  gulp.watch(assetsPath, ['assets']);
 
   watchBundles();
 });
@@ -140,12 +142,17 @@ function manifestPath_() {
   return manifestDebugPath;
 }
 
-gulp.task('copy-manifest', () => {
+gulp.task('manifest', () => {
   let p = gulp.src(manifestPath_());
   if (!isProd) {
     p = p.pipe(rename('manifest.json'));
   }
   return p.pipe(gulp.dest('./target'));
+});
+
+gulp.task('assets', () => {
+  gulp.src(assetsPath)
+  .pipe(gulp.dest('./target/assets'));
 });
 
 (function() {
@@ -154,7 +161,7 @@ gulp.task('copy-manifest', () => {
   }
 })();
 
-var allTasks = ['styles', 'scripts', 'copy-manifest'];
+var allTasks = ['styles', 'scripts', 'manifest', 'assets'];
 
 gulp.task('build', allTasks, () => {
   gulp.src('./target/**')

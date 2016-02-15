@@ -1,0 +1,62 @@
+{
+    "success": true,
+    "start": "2015-10-15T00:00:00Z",
+    "phoneMemo": [],
+    "workflow": [],
+    "message": [],
+    "mail": [],
+    "schedule.facility_approval": [],
+    "schedule": [{
+        "id": 980660,
+        "senderId": 569,
+        "senderName": "Yuki Okada",
+        "receivedAt": "2016-02-15T00:25:08Z",
+        "type": "comment",
+        "url": "https://bozuman.cybozu.com/g/schedule/view.csp?uid=1409&event=980660&bdate=2016-02-15&nid=20616634#follow",
+        "title": "10:00 会議:大阪開発部定例",
+        "body": "うち主催でリモート開発勉強会やってもいいかも、と考え中です。\\r\\nマネジメント、在宅勤務、拠点間分散開発、ツール、などなど、ネタは結構"
+    }, {
+        "id": 979149,
+        "senderId": 111,
+        "senderName": "Takahiro Fukunishi",
+        "receivedAt": "2016-02-15T00:08:40Z",
+        "type": "comment",
+        "url": "https://bozuman.cybozu.com/g/schedule/view.csp?uid=1409&event=979149&bdate=2016-02-15&nid=20560286#follow",
+        "title": "19:00 【合同お食事会】一次アンケートの締切",
+        "body": "こちら本日が締切です！\\r\\n\\r\\n今日の結果をもって、旅行の方は、行先と日程をほぼ決定します。\\r\\n食事会の方は、人数を把握して会場探しを開始しま"
+    }, {
+        "id": 980369,
+        "senderId": 944,
+        "senderName": "Satomi Nagao",
+        "receivedAt": "2016-02-15T00:56:22Z",
+        "type": "comment",
+        "url": "https://bozuman.cybozu.com/g/schedule/view.csp?uid=1409&event=980369&bdate=2016-02-18&nid=20606646#follow",
+        "title": "Thu, February 18 林くん歓迎ランチ ",
+        "body": "ぜひ混ぜてくださいー＾＾"
+    }, {
+        "id": 980115,
+        "senderId": 562,
+        "senderName": "Minoru Kojima",
+        "receivedAt": "2016-02-15T00:45:06Z",
+        "type": "modify",
+        "url": "https://bozuman.cybozu.com/g/schedule/view.csp?uid=1409&event=980115&bdate=2016-02-15&nid=20618304",
+        "title": "休み:休み (小島)",
+        "body": "変更"
+    }, {
+        "id": 980214,
+        "senderId": 569,
+        "senderName": "Yuki Okada",
+        "receivedAt": "2016-02-15T01:39:06Z",
+        "type": "delete",
+        "url": "https://bozuman.cybozu.com/g/schedule/view.csp?uid=1409&event=980214&bdate=2016-02-19&nid=20602432",
+        "title": "Fri, February 19★ 各会議室の施設電源OFF★ ",
+        "body": "削除"
+    }],
+    "bulletin": [],
+    "file": [],
+    "report": [],
+    "space.discussion": [],
+    "space.todo": [],
+    "space": [],
+    "external": []
+}

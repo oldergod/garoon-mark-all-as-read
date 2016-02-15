@@ -1,6 +1,7 @@
+import FallbackButton from '../model/FallbackButton';
+import ClearAllButton from '../model/ClearAllButton';
 import Notification from '../model/Notification';
 import NtfButton from '../model/NtfButton';
-import FallbackButton from '../model/FallbackButton';
 
 let _requestToken = null;
 export default class NotificationUtils {
@@ -59,8 +60,8 @@ export default class NotificationUtils {
     }
   }
 
-  static addTopAllButton(notifications) {
-    NotiticationUtils.renderTopButton(new AllTopbutton(notifications));
+  static addClearAllButton(notifications) {
+    NotificationUtils.renderClearAllButton(new ClearAllButton(notifications));
 
     return notifications;
   }
@@ -106,9 +107,9 @@ export default class NotificationUtils {
     button.renderBefore(datetimeSpan);
   }
 
-  static renderTopButton(button) {
-// TODO(benoit) insert it at the right spot
-    button.renderBefore(document.getElementByClassName('cloudHeader-grnNotification-update-grn'));
+  static renderClearAllButton(button) {
+    // TODO(benoit) insert it at the right spot
+    button.renderBefore(document.querySelector('.cloudHeader-grnNotification-update-grn'));
   }
 
   static get REQUEST_TOKEN() {

@@ -1,4 +1,5 @@
 import NotificationUtils from '../util/NotificationUtils';
+import Button from '../model/Button';
 
 export default class ContentScriptController {
 
@@ -14,9 +15,15 @@ export default class ContentScriptController {
         // then we are getting unread notifications.
         if (mutation.addedNodes.length > 1) {
           this.generateNtfMaarButtons();
-        }
+        } else {
+          if (Button.DEBUG) {
+            // TODO(benoit) insert fixture ?
+            let json = require('../../../test/fixtures.json');
+            console.log(json);
 
-        this.generateNtfMaarButtons();
+            console.log(chrome.extension.getURL('assets/ic_clean_18dp.png'));
+          }
+        }
       });
     });
   }
@@ -36,7 +43,7 @@ export default class ContentScriptController {
   generateNtfMaarButtons() {
     NotificationUtils.getUnreadNotifications()
       .then(NotificationUtils.extractNotifications)
-      .then(NotificationUtils.addAllTopButton)
+      .then(NotificationUtils.addClearAllButton)
       .then(NotificationUtils.addNtfButtons)
       .then(NotificationUtils.addFallbackButtons)
       .catch(e => {
