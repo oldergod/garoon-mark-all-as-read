@@ -11,9 +11,9 @@ export default class ContentScriptController {
 
     this.observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
-        // If we have more than one added node,
+        // If we have more than seven added nodes,
         // then we are getting unread notifications.
-        if (mutation.addedNodes.length > 1) {
+        if (mutation.addedNodes.length > 7) {
           this.generateNtfMaarButtons();
         }
       });
