@@ -186,10 +186,19 @@ export default class NotificationUtils {
 
   /**
    * @param {string} requestToken
-   * @param {garoon.maar.Notification} notification
+   * @param {Notification} notification
    * @return {Promise<boolean>}
    */
   static postMarkAsRead(requestToken, notification) {
+    return NotificationUtils.postMarkAllAsRead(requestToken, [notification]);
+  }
+
+  /**
+   * @param {string} requestToken
+   * @param {Array<Notification<} notifications
+   * @return {Promise<boolean>}
+   */
+  static postMarkAllAsRead(requestToken, notifications) {
     let soapRequest = '<?xml version="1.0" encoding="UTF-8"?>' +
       '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">' +
       '<soap:Header>' +
@@ -204,7 +213,7 @@ export default class NotificationUtils {
       '<NotificationConfirmNotification>' +
       '<parameters>' +
       NotificationUtils.RequestTokenAsSoapParameter(requestToken) +
-      NotificationUtils.NotificationAsSoapParameter(notification) +
+      NotificationUtils.NotificationsAsSoapParameter(notifications) +
       '</parameters>' +
       '</NotificationConfirmNotification>' +
       '</soap:Body>' +
@@ -237,11 +246,21 @@ export default class NotificationUtils {
   }
 
   /**
-   * @param {garoon.maar.Notification} notification
+   * @param {Notification} notification
    * @return {string}
    */
   static NotificationAsSoapParameter(notification) {
     return `<notification_id module_id="${notification.getModuleId()}" item="${notification.getItem()}" />`;
+  }
+
+  /**
+   * @param {Array<Notification>} notifications
+   * @return {string}
+   */
+  static NotificationsAsSoapParameter(notifications) {
+    return notifications.map(ntf => {
+      return `<notification_id module_id="${ntf.getModuleId()}" item="${ntf.getItem()}" />`;
+    }).join('');
   }
 
   /**

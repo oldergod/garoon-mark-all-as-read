@@ -22,7 +22,7 @@
     "run_at": "document_end"
   }],
   "web_accessible_resources": [
-    "assets/ic_clean_18dp.png",
-    "assets/ic_clean_all_18dp.png"
+    "assets/ic_clear_18dp.png",
+    "assets/ic_clear_all_18dp.png"
   ]
 }

@@ -15,14 +15,6 @@ export default class ContentScriptController {
         // then we are getting unread notifications.
         if (mutation.addedNodes.length > 1) {
           this.generateNtfMaarButtons();
-        } else {
-          if (Button.DEBUG) {
-            // TODO(benoit) insert fixture ?
-            let json = require('../../../test/fixtures.json');
-            console.log(json);
-
-            console.log(chrome.extension.getURL('assets/ic_clean_18dp.png'));
-          }
         }
       });
     });

@@ -7,7 +7,7 @@ export default class Button {
   }
 
   static get DEBUG() {
-    return true;
+    return false;
   }
 
   static get CROSS_WRAPPER_CLASSNAME() {
@@ -23,12 +23,18 @@ export default class Button {
     return '<div class="maar-cross-wrapper"><div class="maar-cross" title="\u901A\u77E5\u3092\u65E2\u8AAD\u306B\u3059\u308B"></div></div>';
   }
 
+  static get BACKGROUND_IMAGE_URL() {
+    return chrome.extension.getURL('assets/ic_clear_18dp.png');
+  }
+
   createDom() {
-    let crossWrapper = document.createElement('div');
+    const crossWrapper = document.createElement('div');
     crossWrapper.classList.add(Button.CROSS_WRAPPER_CLASSNAME);
-    let cross = document.createElement('div');
+    const cross = document.createElement('button');
     cross.classList.add(Button.CROSS_CLASSNAME);
+    // 通知を既読にする 
     cross.title = '\u901A\u77E5\u3092\u65E2\u8AAD\u306B\u3059\u308B';
+    cross.style.backgroundImage = 'url(' + Button.BACKGROUND_IMAGE_URL + ')';
     crossWrapper.appendChild(cross);
     return crossWrapper;
   }
@@ -48,8 +54,8 @@ export default class Button {
   }
 
   closeNotificationDom_() {
-    let notificationTopDiv = this.element_.closest(`.${Notification.DIV_CLASSNAME}`);
-    let currentHeight = window.getComputedStyle(notificationTopDiv).getPropertyValue('height');
+    const notificationTopDiv = this.element_.closest(`.${Notification.DIV_CLASSNAME}`);
+    const currentHeight = window.getComputedStyle(notificationTopDiv).getPropertyValue('height');
     notificationTopDiv.style.height = currentHeight;
     setTimeout(() => {
       notificationTopDiv.classList.add('maar-fadeout');
@@ -57,13 +63,12 @@ export default class Button {
     setTimeout(() => {
       notificationTopDiv.remove();
       Button.adjustPopupHeight();
-    }, 150);
+      Button.adjustUnreadNotificationsNumber();
+    }, 250);
   }
-
 
   processAfterMarkAsRead() {
     this.closeNotificationDom_();
-    Button.adjustUnreadNotificationsNumber();
   }
 
   /**
@@ -71,8 +76,8 @@ export default class Button {
    * needed to reset the icon unread notification number.
    */
   static adjustUnreadNotificationsNumber() {
-    let span = document.getElementById('notification_number');
-    let unreadLeft = parseInt(span.innerText, 10);
+    const span = document.getElementById('notification_number');
+    const unreadLeft = parseInt(span.innerText, 10);
     if (unreadLeft > 1) {
       span.innerText = (unreadLeft - 1).toString();
     } else {
@@ -83,14 +88,17 @@ export default class Button {
       // - recheck if there is or no left new unread ntf on the esever
       //   - if yes, just click the reload button
       //   - if no, just hide it (but still say garoon we 既読化 them)
+
+      // TODO(benoit) 2016/2/16 call API check issues
       document.querySelector('#popup_notification_header .cloudHeader-grnNotification-update-grn').click();
+
       // we close the notifications popup
       // document.querySelector('.cloudHeader-dropdownMenu-grn').classList.remove('cloudHeader-dropdownMenu-open-grn');
     }
   }
 
   static adjustPopupHeight() {
-    let popup_notification_header = document.getElementById('popup_notification_header');
+    const popup_notification_header = document.getElementById('popup_notification_header');
     if (popup_notification_header.style.height !== '' && popup_notification_header.scrollHeight <= parseInt(popup_notification_header.style.height, 10) + 1) {
       popup_notification_header.style.height = '';
     }
