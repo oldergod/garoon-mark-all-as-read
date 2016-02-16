@@ -2,17 +2,12 @@
   float: right;
   border-radius: 50%;
   border: 1px solid #aaa;
-  height: 20px;
-  width: 20px;
   display: flex;
-  justify-content: center;
   background: #eee;
-  line-height: 0;
   cursor: pointer;
   transition: 200ms;
-  transform: rotate(45deg);
   &:hover {
-    transform: rotate(585deg);
+    transform: rotate(540deg);
   }
   &:active {
     transform: rotate(630deg);
@@ -20,30 +15,43 @@
 }
 
 .maar-cross {
-  align-self: center;
-  height: 15px;
-  width: 15px;
-  background: linear-gradient(to bottom, transparent 45%, #777 45%, #777 55%, transparent 55%), linear-gradient(to right, transparent 45%, #777 45%, #777 55%, transparent 55%);
+  border: none;
+  cursor: pointer;
+  height: 18px;
+  width: 18px;
+  cursor: pointer;
+  background: center center no-repeat;
+  opacity: .45;
+  outline: 0;
+  &:hover {
+    opacity: .8;
+  }
 }
 
-// @keyframes slideout {
-//   from {
-//     opacity: 1;
-//     transform: translateX(0px);
-//   }
-//   to {
-//     opacity: 0;
-//     transform: translateX(800px);
-//   }
-// }
+.maar-clear-all-wrapper {
+  float: right;
+}
 
-// .maar-slide {
-//   animation: slideout 600ms cubic-bezier(0.53, -0.32, 0.19, 0.99);
-//   max-height: 500px;
-// }
+.maar-clear-all {
+  background: center center no-repeat;
+  border: none;
+  height: 27px;
+  width: 27px;
+  cursor: pointer;
+  outline: 0;
+  opacity: .6;
+  transition: 200ms;
+  &:hover {
+    opacity: .9;
+    transform: rotate(360deg);
+  }
+  &:active {
+    transform: rotate(380deg);
+  }
+}
 
 .maar-fadeout {
-  transition: background-color 150ms linear, 50ms height 100ms ease-in, 50ms border 100ms ease-in, 50ms margin-top 100ms ease-in, 50ms margin-bottom 100ms ease-in, 50ms padding-top 100ms ease-in, 50ms padding-bottom 100ms ease-in;
+  transition: background-color 250ms linear, 50ms height 200ms ease-in, 50ms border 200ms ease-in, 50ms margin-top 200ms ease-in, 50ms margin-bottom 200ms ease-in, 50ms padding-top 200ms ease-in, 50ms padding-bottom 200ms ease-in;
   overflow: hidden;
   height: 0 !important;
   padding-top: 0 !important;
