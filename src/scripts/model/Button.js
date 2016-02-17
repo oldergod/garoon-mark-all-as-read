@@ -1,5 +1,4 @@
 import Notification from '../model/Notification';
-import NotificationUtils from '../util/NotificationUtils';
 
 export default class Button {
   constructor() {

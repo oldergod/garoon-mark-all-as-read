@@ -1,6 +1,6 @@
 import Button from './Button';
 import Notification from '../model/Notification';
-import NotificationUtils from '../util/NotificationUtils';
+import XhrUtils from '../util/XhrUtils';
 
 export default class ClearAllButton extends Button {
   constructor(notifications) {
@@ -42,7 +42,7 @@ export default class ClearAllButton extends Button {
    * @override
    */
   markAsRead_(event) {
-    NotificationUtils.fetchRequestToken()
+    XhrUtils.fetchRequestToken()
       .then(this.postMarkAllAsRead_.bind(this))
       .then(this.processAfterMarkAllAsRead.bind(this));
 
@@ -57,7 +57,7 @@ export default class ClearAllButton extends Button {
     if (Button.DEBUG) {
       return Promise.resolve(true);
     }
-    return NotificationUtils.postMarkAllAsRead(requestToken, this.notifications_);
+    return XhrUtils.postMarkAllAsRead(requestToken, this.notifications_);
   }
 
   // TODO(benoit) clear all one by one beautifuly

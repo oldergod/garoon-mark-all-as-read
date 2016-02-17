@@ -1,4 +1,5 @@
-import NotificationUtils from '../util/NotificationUtils';
+import DomUtils from '../util/DomUtils';
+import XhrUtils from '../util/XhrUtils';
 import Button from '../model/Button';
 
 export default class ContentScriptController {
@@ -33,11 +34,11 @@ export default class ContentScriptController {
   }
 
   generateNtfMaarButtons() {
-    NotificationUtils.getUnreadNotifications()
-      .then(NotificationUtils.extractNotifications)
-      .then(NotificationUtils.addClearAllButton)
-      .then(NotificationUtils.addNtfButtons)
-      .then(NotificationUtils.addFallbackButtons)
+    XhrUtils.getUnreadNotifications()
+      .then(XhrUtils.extractNotifications)
+      .then(DomUtils.addClearAllButton)
+      .then(DomUtils.addNtfButtons)
+      .then(DomUtils.addFallbackButtons)
       .catch(e => {
         console.log(e);
       });

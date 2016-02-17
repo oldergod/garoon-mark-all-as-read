@@ -1,12 +1,37 @@
-import FallbackButton from '../model/FallbackButton';
-import ClearAllButton from '../model/ClearAllButton';
 import Notification from '../model/Notification';
-import NtfButton from '../model/NtfButton';
 
 let _requestToken = null;
-export default class NotificationUtils {
+export default class XhrUtils {
   constructor() {
-    throw 'I am NotificationUtils. Do not instantiate me';
+    throw 'I am XhrUtils. Do not instantiate me';
+  }
+
+  static get REQUEST_TOKEN() {
+    return _requestToken;
+  }
+
+  static set REQUEST_TOKEN(rt) {
+    _requestToken = rt;
+  }
+
+  static extractNotifications(jsonResponse) {
+    /*jshint -W069 */
+    if (jsonResponse['success']) {
+      let notifications = [];
+      for (let key in Notification.MODULE) {
+        if (jsonResponse[key].length !== 0) {
+          let moduleId = Notification.MODULE[key];
+          jsonResponse[key].forEach(rawNotification => {
+            let notification = new Notification(moduleId, rawNotification.id, rawNotification.url);
+            notifications.push(notification);
+          });
+        }
+      }
+      return notifications;
+    } else {
+      console.log('something went wrong but what ? session time out maybe ?', jsonResponse);
+      throw 'extract failed';
+    }
   }
 
   static getUnreadNotifications() {
@@ -38,93 +63,11 @@ export default class NotificationUtils {
       });
   }
 
-
-
-  static extractNotifications(jsonResponse) {
-    /*jshint -W069 */
-    if (jsonResponse['success']) {
-      let notifications = [];
-      for (let key in Notification.MODULE) {
-        if (jsonResponse[key].length !== 0) {
-          let moduleId = Notification.MODULE[key];
-          jsonResponse[key].forEach(rawNotification => {
-            let notification = new Notification(moduleId, rawNotification.id, rawNotification.url);
-            notifications.push(notification);
-          });
-        }
-      }
-      return notifications;
-    } else {
-      console.log('something went wrong but what ? session time out maybe ?', jsonResponse);
-      throw 'extract failed';
-    }
-  }
-
-  static addClearAllButton(notifications) {
-    NotificationUtils.renderClearAllButton(new ClearAllButton(notifications));
-
-    return notifications;
-  }
-
-  static addNtfButtons(notifications) {
-    let aTag, button;
-    notifications.forEach(notification => {
-      aTag = notification.findNodeByUrl();
-      if (aTag) {
-        aTag.classList.add(NotificationUtils.SET_AS_NTF_BUTTONS);
-        button = new NtfButton(notification);
-        NotificationUtils.renderButton(aTag, button);
-      } else {
-        // TODO benoit set rules for specific links that do not match what is in the json
-        console.log('did not find aTag for', notification);
-      }
-    });
-  }
-
-  static addFallbackButtons() {
-    let notificationsPopup = document.getElementById(Notification.DIVS_POPUP_ID);
-    let notificationDivs = Array.from(notificationsPopup.querySelectorAll(`.${Notification.DIV_CLASSNAME}`));
-    let query = `.${Notification.TITLE_CLASSNAME} a:not(.${NotificationUtils.SET_AS_NTF_BUTTONS})`;
-    let aTag, button, fetchUrl, notificationTitleDiv;
-
-    for (let notificationDiv of notificationDivs) {
-      aTag = notificationDiv.querySelector(query);
-      if (aTag != null) {
-        fetchUrl = aTag.pathname + aTag.search + aTag.hash;
-        button = new FallbackButton(fetchUrl);
-        NotificationUtils.renderButton(aTag, button);
-      }
-    }
-  }
-
-  static get SET_AS_NTF_BUTTONS() {
-    return 'maar-set';
-  }
-
-  static renderButton(aTag, button) {
-    let notificationTitleDiv = aTag.closest(`.${Notification.TITLE_CLASSNAME}`);
-    let datetimeSpan = notificationTitleDiv.firstElementChild;
-    button.renderBefore(datetimeSpan);
-  }
-
-  static renderClearAllButton(button) {
-    // TODO(benoit) insert it at the right spot
-    button.renderBefore(document.querySelector('.cloudHeader-grnNotification-update-grn'));
-  }
-
-  static get REQUEST_TOKEN() {
-    return _requestToken;
-  }
-
-  static set REQUEST_TOKEN(rt) {
-    _requestToken = rt;
-  }
-
   /**
    * @return {Promise<string>}
    */
   static fetchRequestToken() {
-    return NotificationUtils.getRequestToken();
+    return XhrUtils.getRequestToken();
   }
 
   /**
@@ -133,8 +76,8 @@ export default class NotificationUtils {
    * @return {Promise<string>}
    */
   static getRequestToken() {
-    if (NotificationUtils.REQUEST_TOKEN != null) {
-      return Promise.resolve(NotificationUtils.REQUEST_TOKEN);
+    if (XhrUtils.REQUEST_TOKEN != null) {
+      return Promise.resolve(XhrUtils.REQUEST_TOKEN);
     }
 
     // build SOAP request
@@ -173,8 +116,8 @@ export default class NotificationUtils {
       .then(response => {
         if (response.ok) {
           return response.text().then(responseText => {
-            NotificationUtils.REQUEST_TOKEN = responseText.match(/[^>]+(?=<\/request_token>)/)[0];
-            return NotificationUtils.REQUEST_TOKEN;
+            XhrUtils.REQUEST_TOKEN = responseText.match(/[^>]+(?=<\/request_token>)/)[0];
+            return XhrUtils.REQUEST_TOKEN;
           });
         } else {
           throw new TypeError();
@@ -190,7 +133,7 @@ export default class NotificationUtils {
    * @return {Promise<boolean>}
    */
   static postMarkAsRead(requestToken, notification) {
-    return NotificationUtils.postMarkAllAsRead(requestToken, [notification]);
+    return XhrUtils.postMarkAllAsRead(requestToken, [notification]);
   }
 
   /**
@@ -212,8 +155,8 @@ export default class NotificationUtils {
       '<soap:Body>' +
       '<NotificationConfirmNotification>' +
       '<parameters>' +
-      NotificationUtils.RequestTokenAsSoapParameter(requestToken) +
-      NotificationUtils.NotificationsAsSoapParameter(notifications) +
+      XhrUtils.RequestTokenAsSoapParameter(requestToken) +
+      XhrUtils.NotificationsAsSoapParameter(notifications) +
       '</parameters>' +
       '</NotificationConfirmNotification>' +
       '</soap:Body>' +
