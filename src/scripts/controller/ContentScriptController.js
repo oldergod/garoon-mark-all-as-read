@@ -1,5 +1,6 @@
 import DomUtils from '../util/DomUtils';
 import XhrUtils from '../util/XhrUtils';
+import Notification from '../model/Notification';
 import Button from '../model/Button';
 
 export default class ContentScriptController {
@@ -35,7 +36,7 @@ export default class ContentScriptController {
 
   generateNtfMaarButtons() {
     XhrUtils.getUnreadNotifications()
-      .then(XhrUtils.extractNotifications)
+      .then(Notification.fromJson)
       .then(DomUtils.addClearAllButton)
       .then(DomUtils.addNtfButtons)
       .then(DomUtils.addFallbackButtons)

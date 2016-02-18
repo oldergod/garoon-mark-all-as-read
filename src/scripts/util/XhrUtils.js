@@ -14,26 +14,6 @@ export default class XhrUtils {
     _requestToken = rt;
   }
 
-  static extractNotifications(jsonResponse) {
-    /*jshint -W069 */
-    if (jsonResponse['success']) {
-      let notifications = [];
-      for (let key in Notification.MODULE) {
-        if (jsonResponse[key].length !== 0) {
-          let moduleId = Notification.MODULE[key];
-          jsonResponse[key].forEach(rawNotification => {
-            let notification = new Notification(moduleId, rawNotification.id, rawNotification.url);
-            notifications.push(notification);
-          });
-        }
-      }
-      return notifications;
-    } else {
-      console.log('something went wrong but what ? session time out maybe ?', jsonResponse);
-      throw 'extract failed';
-    }
-  }
-
   static getUnreadNotifications() {
     let url = '/g/v1/notification/list';
     let method = 'POST';
