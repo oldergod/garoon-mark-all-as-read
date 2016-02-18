@@ -44,7 +44,9 @@ export default class ClearAllButton extends Button {
   markAsRead_(event) {
     XhrUtils.fetchRequestToken()
       .then(this.postMarkAllAsRead_.bind(this))
-      .then(this.processAfterMarkAllAsRead.bind(this));
+      .then(ClearAllButton.processAfterMarkAllAsRead)
+      .then(Button.adjustPopupHeight)
+      .then(Button.adjustUnreadNotificationsNumber);
 
     event.stopPropagation();
   }
@@ -61,19 +63,13 @@ export default class ClearAllButton extends Button {
   }
 
   // TODO(benoit) clear all one by one beautifuly
-  processAfterMarkAllAsRead() {
+  static processAfterMarkAllAsRead() {
     const notificationTopDivs = document.querySelectorAll(`.${Notification.DIV_CLASSNAME}`);
-    Array.prototype.forEach.call(notificationTopDivs, (ntfTopDiv) => {
-      const currentHeight = window.getComputedStyle(ntfTopDiv).getPropertyValue('height');
-      ntfTopDiv.style.height = currentHeight;
-      setTimeout(() => {
-        ntfTopDiv.classList.add('maar-fadeout');
-      }, 0);
-      setTimeout(() => {
-        ntfTopDiv.remove();
-        Button.adjustPopupHeight();
-        Button.adjustUnreadNotificationsNumber();
-      }, 250);
+
+    const allPromises = Array.prototype.map.call(notificationTopDivs, (ntfTopDiv) => {
+      return Button.closeNotificationDom(ntfTopDiv);
     });
+
+    return Promise.all(allPromises);
   }
 }
