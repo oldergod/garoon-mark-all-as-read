@@ -130,19 +130,17 @@ export default class Notification {
   }
 
   static fromJson(jsonResponse) {
-    let notifications = [];
-    let moduleId;
-    const createAndAddNotification = (rawNotification) => {
-      let notification = new Notification(moduleId, rawNotification.id, rawNotification.url);
-      notifications.push(notification);
-    };
-
     /*jshint -W069 */
     if (jsonResponse['success']) {
+      const notifications = [];
       for (let key in Notification.MODULE) {
         if (jsonResponse[key].length !== 0) {
-          moduleId = Notification.MODULE[key];
-          jsonResponse[key].forEach(createAndAddNotification);
+          const moduleId = Notification.MODULE[key];
+          let notification;
+          jsonResponse[key].forEach((rawNotification) => {
+            notification = new Notification(moduleId, rawNotification.id, rawNotification.url);
+            notifications.push(notification);
+          });
         }
       }
       return notifications;
