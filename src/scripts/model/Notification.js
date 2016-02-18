@@ -131,6 +131,7 @@ export default class Notification {
 
   static fromJson(jsonResponse) {
     let notifications = [];
+    let moduleId;
     const createAndAddNotification = (rawNotification) => {
       let notification = new Notification(moduleId, rawNotification.id, rawNotification.url);
       notifications.push(notification);
@@ -140,7 +141,7 @@ export default class Notification {
     if (jsonResponse['success']) {
       for (let key in Notification.MODULE) {
         if (jsonResponse[key].length !== 0) {
-          let moduleId = Notification.MODULE[key];
+          moduleId = Notification.MODULE[key];
           jsonResponse[key].forEach(createAndAddNotification);
         }
       }

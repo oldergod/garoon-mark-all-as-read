@@ -67,7 +67,6 @@ export default class Button {
     }, 0);
 
     return new Promise((resolve) => {
-      console.log('a.promise start');
       setTimeout(() => {
         ntfTopDiv.remove();
         resolve();
