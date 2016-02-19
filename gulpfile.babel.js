@@ -46,7 +46,7 @@ function createBundle(url) {
   }).transform(babelify, {
     presets: ["es2015"]
   });
-};
+}
 
 function watchBundles() {
   let watch = null;
@@ -54,7 +54,7 @@ function watchBundles() {
     watch = watchify(bundles[bundleName].bundle);
     watch.on('update', buildBundle.bind(this, bundleName));
   }
-};
+}
 
 function buildBundle(bundleName) {
   const job = bundles[bundleName];
@@ -80,7 +80,7 @@ function buildBundle(bundleName) {
     organization: 'Benoit Quenaudon',
     tiny: true
   })).pipe(gulp.dest('./target/scripts'));
-};
+}
 
 gulp.task('jshint', () => {
   return gulp.src([scriptsSourcePath, gulpfilePath])

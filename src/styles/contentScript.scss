@@ -50,8 +50,12 @@
   }
 }
 
+$totalDuration: 250ms;
+$delay: 50ms;
+$subDuration: 200ms;
+
 .maar-fadeout {
-  transition: background-color 250ms linear, 50ms height 200ms ease-in, 50ms border 200ms ease-in, 50ms margin-top 200ms ease-in, 50ms margin-bottom 200ms ease-in, 50ms padding-top 200ms ease-in, 50ms padding-bottom 200ms ease-in;
+  transition: background-color $totalDuration linear, height $subDuration ease-in $delay, border $subDuration ease-in $delay, margin-top $subDuration ease-in $delay, margin-bottom $subDuration ease-in $delay, padding-top $subDuration ease-in $delay, padding-bottom $subDuration ease-in $delay;
   overflow: hidden;
   height: 0 !important;
   padding-top: 0 !important;

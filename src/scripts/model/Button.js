@@ -1,5 +1,4 @@
 import Notification from '../model/Notification';
-import NotificationUtils from '../util/NotificationUtils';
 
 export default class Button {
   constructor() {
@@ -7,7 +6,9 @@ export default class Button {
   }
 
   static get DEBUG() {
-    return false;
+    // TODO(benoit) find a real system to deal with this...
+    // if possible manageable from the gulpfile
+    return true;
   }
 
   static get CROSS_WRAPPER_CLASSNAME() {
@@ -55,20 +56,32 @@ export default class Button {
 
   closeNotificationDom_() {
     const notificationTopDiv = this.element_.closest(`.${Notification.DIV_CLASSNAME}`);
-    const currentHeight = window.getComputedStyle(notificationTopDiv).getPropertyValue('height');
-    notificationTopDiv.style.height = currentHeight;
+    return Button.closeNotificationDom(notificationTopDiv);
+  }
+
+  static closeNotificationDom(ntfTopDiv) {
+    const currentHeight = window.getComputedStyle(ntfTopDiv).getPropertyValue('height');
+    ntfTopDiv.style.height = currentHeight;
     setTimeout(() => {
-      notificationTopDiv.classList.add('maar-fadeout');
-    }, 0);
-    setTimeout(() => {
-      notificationTopDiv.remove();
-      Button.adjustPopupHeight();
-      Button.adjustUnreadNotificationsNumber();
-    }, 250);
+      ntfTopDiv.classList.add('maar-fadeout');
+
+      // is the lap is too short, the currentHeight does not seem to
+      // have no time to be applied to is skipped ?
+      // is that possible ?
+    }, 50);
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        ntfTopDiv.remove();
+        resolve();
+      }, 300);
+    });
   }
 
   processAfterMarkAsRead() {
-    this.closeNotificationDom_();
+    this.closeNotificationDom_()
+      .then(Button.adjustPopupHeight)
+      .then(Button.adjustUnreadNotificationsNumber);
   }
 
   /**

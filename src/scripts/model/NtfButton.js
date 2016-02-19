@@ -1,5 +1,5 @@
 import Button from './Button';
-import NotificationUtils from '../util/NotificationUtils';
+import XhrUtils from '../util/XhrUtils';
 
 export default class NtfButton extends Button {
   /**
@@ -16,7 +16,7 @@ export default class NtfButton extends Button {
    * @override
    */
   markAsRead_(event) {
-    NotificationUtils.fetchRequestToken()
+    XhrUtils.fetchRequestToken()
       .then(this.postMarkAsRead_.bind(this))
       .then(this.processAfterMarkAsRead.bind(this));
 
@@ -31,6 +31,6 @@ export default class NtfButton extends Button {
     if (Button.DEBUG) {
       return Promise.resolve(true);
     }
-    return NotificationUtils.postMarkAsRead(requestToken, this.notification_);
+    return XhrUtils.postMarkAsRead(requestToken, this.notification_);
   }
 }
