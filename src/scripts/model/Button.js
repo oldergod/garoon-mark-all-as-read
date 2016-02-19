@@ -64,13 +64,17 @@ export default class Button {
     ntfTopDiv.style.height = currentHeight;
     setTimeout(() => {
       ntfTopDiv.classList.add('maar-fadeout');
-    }, 0);
+
+      // is the lap is too short, the currentHeight does not seem to
+      // have no time to be applied to is skipped ?
+      // is that possible ?
+    }, 50);
 
     return new Promise((resolve) => {
       setTimeout(() => {
         ntfTopDiv.remove();
         resolve();
-      }, 250);
+      }, 300);
     });
   }
 
