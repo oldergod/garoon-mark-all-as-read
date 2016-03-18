@@ -33,7 +33,7 @@ export default class Button {
     crossWrapper.classList.add(Button.CROSS_WRAPPER_CLASSNAME);
     const cross = document.createElement('button');
     cross.classList.add(Button.CROSS_CLASSNAME);
-    // 通知を既読にする 
+    // 通知を既読にする
     cross.title = '\u901A\u77E5\u3092\u65E2\u8AAD\u306B\u3059\u308B';
     cross.style.backgroundImage = 'url(' + Button.BACKGROUND_IMAGE_URL + ')';
     crossWrapper.appendChild(cross);
@@ -62,13 +62,9 @@ export default class Button {
   static closeNotificationDom(ntfTopDiv) {
     const currentHeight = window.getComputedStyle(ntfTopDiv).getPropertyValue('height');
     ntfTopDiv.style.height = currentHeight;
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       ntfTopDiv.classList.add('maar-fadeout');
-
-      // is the lap is too short, the currentHeight does not seem to
-      // have no time to be applied to is skipped ?
-      // is that possible ?
-    }, 50);
+    });
 
     return new Promise((resolve) => {
       setTimeout(() => {
