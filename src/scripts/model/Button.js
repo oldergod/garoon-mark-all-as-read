@@ -89,8 +89,7 @@ export default class Button {
     const unreadLeft = parseInt(span.innerText, 10);
     if (unreadLeft > 1) {
       span.innerText = (unreadLeft - 1).toString();
-      fetch({
-        url: '/g/grn/ajax_get_data_notification.csp',
+      fetch('/g/grn/ajax_get_data_notification.csp', {
         method: 'POST',
         credentials = 'include';
       });
