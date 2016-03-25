@@ -89,12 +89,17 @@ export default class Button {
     const unreadLeft = parseInt(span.innerText, 10);
     if (unreadLeft > 1) {
       span.innerText = (unreadLeft - 1).toString();
+      fetch({
+        url: '/g/grn/ajax_get_data_notification.csp',
+        method: 'POST',
+        credentials = 'include';
+      });
     } else {
       span.innerText = '';
       span.style.display = 'none';
       // TODO(benoit) should do it with the api for each number, not only #issue-6
       // We also should probably
-      // - recheck if there is or no left new unread ntf on the esever
+      // - recheck if there is or no left new unread ntf on the server
       //   - if yes, just click the reload button
       //   - if no, just hide it (but still say garoon we 既読化 them)
 
