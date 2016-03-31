@@ -1,5 +1,6 @@
-import FallbackButton from '../model/FallbackButton';
+import Button from '../model/Button';
 import ClearAllButton from '../model/ClearAllButton';
+import FallbackButton from '../model/FallbackButton';
 import Notification from '../model/Notification';
 import NtfButton from '../model/NtfButton';
 
@@ -42,6 +43,23 @@ export default class DomUtils {
         button = new FallbackButton(fetchUrl);
         DomUtils.renderButton(aTag, button);
       }
+    }
+
+    return notificationDivs;
+  }
+
+  static addUpdaterToLinks() {
+    const notificationDivs = Array.from(document.querySelectorAll(`#${Notification.DIVS_POPUP_ID} .${Notification.DIV_CLASSNAME}`));
+    for (let notificationDiv of notificationDivs) {
+      const aTag = notificationDiv.querySelector(`.${Notification.TITLE_CLASSNAME} a`);
+      if (!aTag) {
+        return;
+      }
+      aTag.addEventListener('click', (e) => {
+        if (e.which === 1) {
+          setTimeout(Button.adjustUnreadNotificationsNumber, 100);
+        }
+      });
     }
   }
 

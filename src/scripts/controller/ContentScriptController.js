@@ -15,6 +15,7 @@ export default class ContentScriptController {
       mutations.forEach(mutation => {
         // If we have more than seven added nodes,
         // then we are getting unread notifications.
+        // TODO(benoit) fix this, really fragile to change...
         if (mutation.addedNodes.length > 7) {
           this.generateNtfMaarButtons();
         }
@@ -40,6 +41,7 @@ export default class ContentScriptController {
       .then(DomUtils.addClearAllButton)
       .then(DomUtils.addNtfButtons)
       .then(DomUtils.addFallbackButtons)
+      .then(DomUtils.addUpdaterToLinks)
       .catch(e => {
         console.log(e);
       });
