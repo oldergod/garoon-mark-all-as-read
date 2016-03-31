@@ -1,5 +1,4 @@
 import Button from './Button';
-import NotificationUtils from '../util/NotificationUtils';
 
 export default class FallbackButton extends Button {
   /**

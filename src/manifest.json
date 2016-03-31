@@ -3,7 +3,7 @@
   "short_name": "GaroonMAAR",
   "description": "Garoonの通知を簡単に既読化できるクローム拡張アプリ。",
   "manifest_version": 2,
-  "version": "0.2.5",
+  "version": "0.2.9",
   "content_scripts": [
     {
       "matches": [
@@ -17,5 +17,9 @@
       ],
       "run_at": "document_end"
     }
+  ],
+  "web_accessible_resources": [
+    "assets/ic_clear_18dp.png",
+    "assets/ic_clear_all_18dp.png"
   ]
 }

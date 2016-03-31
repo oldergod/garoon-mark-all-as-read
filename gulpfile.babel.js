@@ -15,7 +15,6 @@ import rename from 'gulp-rename';
 import runSequence from 'run-sequence';
 import sass from 'gulp-sass';
 import source from 'vinyl-source-stream';
-import sourcemaps from 'gulp-sourcemaps';
 import uglify from 'gulp-uglify';
 import watchify from 'watchify';
 import zip from 'gulp-zip';
@@ -46,7 +45,7 @@ function createBundle(url) {
   }).transform(babelify, {
     presets: ["es2015"]
   });
-};
+}
 
 function watchBundles() {
   let watch = null;
@@ -54,7 +53,7 @@ function watchBundles() {
     watch = watchify(bundles[bundleName].bundle);
     watch.on('update', buildBundle.bind(this, bundleName));
   }
-};
+}
 
 function buildBundle(bundleName) {
   const job = bundles[bundleName];
@@ -69,18 +68,13 @@ function buildBundle(bundleName) {
 
   if (isProd) {
     b = b.pipe(uglify().on('error', gutil.log.bind(gutil, 'Uglify Error')));
-  } else {
-    b = b.pipe(sourcemaps.init({
-        loadMaps: true
-      }))
-      .pipe(sourcemaps.write('./'));
   }
 
   return b.pipe(license('MIT', {
     organization: 'Benoit Quenaudon',
     tiny: true
   })).pipe(gulp.dest('./target/scripts'));
-};
+}
 
 gulp.task('jshint', () => {
   return gulp.src([scriptsSourcePath, gulpfilePath])

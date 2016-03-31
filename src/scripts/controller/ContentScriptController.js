@@ -1,4 +1,6 @@
-import NotificationUtils from '../util/NotificationUtils';
+import DomUtils from '../util/DomUtils';
+import XhrUtils from '../util/XhrUtils';
+import Notification from '../model/Notification';
 import Button from '../model/Button';
 
 export default class ContentScriptController {
@@ -11,9 +13,9 @@ export default class ContentScriptController {
 
     this.observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
-        // If we have more than one added node,
+        // If we have more than seven added nodes,
         // then we are getting unread notifications.
-        if (mutation.addedNodes.length > 1) {
+        if (mutation.addedNodes.length > 7) {
           this.generateNtfMaarButtons();
         }
       });
@@ -33,11 +35,11 @@ export default class ContentScriptController {
   }
 
   generateNtfMaarButtons() {
-    NotificationUtils.getUnreadNotifications()
-      .then(NotificationUtils.extractNotifications)
-      .then(NotificationUtils.addClearAllButton)
-      .then(NotificationUtils.addNtfButtons)
-      .then(NotificationUtils.addFallbackButtons)
+    XhrUtils.getUnreadNotifications()
+      .then(Notification.fromJson)
+      .then(DomUtils.addClearAllButton)
+      .then(DomUtils.addNtfButtons)
+      .then(DomUtils.addFallbackButtons)
       .catch(e => {
         console.log(e);
       });

@@ -128,4 +128,25 @@ export default class Notification {
       `${key}=${searchObject[key]}`
     ).join('&');
   }
+
+  static fromJson(jsonResponse) {
+    /*jshint -W069 */
+    if (jsonResponse['success']) {
+      const notifications = [];
+      for (let key in Notification.MODULE) {
+        if (jsonResponse[key].length !== 0) {
+          const moduleId = Notification.MODULE[key];
+          let notification;
+          jsonResponse[key].forEach((rawNotification) => {
+            notification = new Notification(moduleId, rawNotification.id, rawNotification.url);
+            notifications.push(notification);
+          });
+        }
+      }
+      return notifications;
+    } else {
+      console.log('something went wrong but what ? session time out maybe ?', jsonResponse);
+      throw 'extract failed';
+    }
+  }
 }
