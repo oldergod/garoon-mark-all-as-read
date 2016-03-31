@@ -90,7 +90,7 @@ gulp.task('jshint', () => {
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
-gulp.task('clean', done => {
+gulp.task('clean', (done) => {
   if (isProd) {
     delete bundles.chromereload;
   }
@@ -109,10 +109,19 @@ gulp.task('styles', () => {
     .pipe(gulp.dest('./target/styles'));
 });
 
-gulp.task('scripts', function() {
+gulp.task('scripts', function(done) {
+  const bundlePromises = [];
   for (let bundleName in bundles) {
-    buildBundle(bundleName);
+    bundlePromises.push(
+      new Promise((resolve, reject) => {
+        let readable = buildBundle(bundleName);
+        readable.on('end', () => {
+          resolve();
+        });
+      })
+    );
   }
+  Promise.all(bundlePromises).then(() => done());
 });
 
 gulp.task('watch', function() {
@@ -146,7 +155,7 @@ gulp.task('manifest', () => {
 
 gulp.task('assets', () => {
   gulp.src(assetsPath)
-  .pipe(gulp.dest('./target/assets'));
+    .pipe(gulp.dest('./target/assets'));
 });
 
 (function() {
