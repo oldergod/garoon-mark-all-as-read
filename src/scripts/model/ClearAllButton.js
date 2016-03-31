@@ -46,7 +46,7 @@ export default class ClearAllButton extends Button {
       .then(this.postMarkAllAsRead_.bind(this))
       .then(ClearAllButton.processAfterMarkAllAsRead)
       .then(Button.adjustPopupHeight)
-      .then(Button.adjustUnreadNotificationsNumber);
+      .then(Button.emptyNotificationNumber);
 
     event.stopPropagation();
   }

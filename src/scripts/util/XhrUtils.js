@@ -15,15 +15,15 @@ export default class XhrUtils {
   }
 
   static getUnreadNotifications() {
-    let url = '/g/v1/notification/list';
-    let method = 'POST';
-    let headers = new Headers();
+    const url = '/g/v1/notification/list';
+    const method = 'POST';
+    const headers = new Headers();
     headers.append('Content-Type', 'text/json');
-    let body = JSON.stringify({
+    const body = JSON.stringify({
       'start': '2015-10-15T00:00:00Z'
     });
-    let cache = 'no-cache';
-    let credentials = 'include';
+    const cache = 'no-cache';
+    const credentials = 'include';
     return fetch(url, {
         method,
         headers,
@@ -61,7 +61,7 @@ export default class XhrUtils {
     }
 
     // build SOAP request
-    let soapRequest = '<?xml version="1.0" encoding="UTF-8"?>' +
+    const soapRequest = '<?xml version="1.0" encoding="UTF-8"?>' +
       '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">' +
       '<soap:Header>' +
       '<Action>UtilGetRequestToken</Action>' +
@@ -78,13 +78,13 @@ export default class XhrUtils {
       '</soap:Body>' +
       '</soap:Envelope>';
 
-    let url = '/g/util_api/util/api.csp';
-    let method = 'POST';
-    let headers = new Headers();
+    const url = '/g/util_api/util/api.csp';
+    const method = 'POST';
+    const headers = new Headers();
     headers.append('Content-Type', 'text/xml');
-    let body = soapRequest;
-    let cache = 'no-cache';
-    let credentials = 'include';
+    const body = soapRequest;
+    const cache = 'no-cache';
+    const credentials = 'include';
 
     return fetch(url, {
         method,
@@ -122,7 +122,7 @@ export default class XhrUtils {
    * @return {Promise<boolean>}
    */
   static postMarkAllAsRead(requestToken, notifications) {
-    let soapRequest = '<?xml version="1.0" encoding="UTF-8"?>' +
+    const soapRequest = '<?xml version="1.0" encoding="UTF-8"?>' +
       '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">' +
       '<soap:Header>' +
       '<Action>NotificationConfirmNotification</Action>' +
@@ -142,13 +142,13 @@ export default class XhrUtils {
       '</soap:Body>' +
       '</soap:Envelope>';
 
-    let url = '/g/cbpapi/notification/api.csp';
-    let method = 'POST';
-    let headers = new Headers();
+    const url = '/g/cbpapi/notification/api.csp';
+    const method = 'POST';
+    const headers = new Headers();
     headers.append('Content-Type', 'text/xml');
-    let body = soapRequest;
-    let cache = 'no-cache';
-    let credentials = 'include';
+    const body = soapRequest;
+    const cache = 'no-cache';
+    const credentials = 'include';
 
     return fetch(url, {
         method,

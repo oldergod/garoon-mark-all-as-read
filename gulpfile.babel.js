@@ -15,7 +15,6 @@ import rename from 'gulp-rename';
 import runSequence from 'run-sequence';
 import sass from 'gulp-sass';
 import source from 'vinyl-source-stream';
-import sourcemaps from 'gulp-sourcemaps';
 import uglify from 'gulp-uglify';
 import watchify from 'watchify';
 import zip from 'gulp-zip';
@@ -69,11 +68,6 @@ function buildBundle(bundleName) {
 
   if (isProd) {
     b = b.pipe(uglify().on('error', gutil.log.bind(gutil, 'Uglify Error')));
-  } else {
-    b = b.pipe(sourcemaps.init({
-        loadMaps: true
-      }))
-      .pipe(sourcemaps.write('./'));
   }
 
   return b.pipe(license('MIT', {

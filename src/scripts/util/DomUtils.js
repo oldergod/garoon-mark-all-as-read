@@ -30,10 +30,10 @@ export default class DomUtils {
   }
 
   static addFallbackButtons() {
-    let notificationsPopup = document.getElementById(Notification.DIVS_POPUP_ID);
-    let notificationDivs = Array.from(notificationsPopup.querySelectorAll(`.${Notification.DIV_CLASSNAME}`));
-    let query = `.${Notification.TITLE_CLASSNAME} a:not(.${DomUtils.SET_AS_NTF_BUTTONS})`;
-    let aTag, button, fetchUrl, notificationTitleDiv;
+    const notificationsPopup = document.getElementById(Notification.DIVS_POPUP_ID);
+    const notificationDivs = Array.from(notificationsPopup.querySelectorAll(`.${Notification.DIV_CLASSNAME}`));
+    const query = `.${Notification.TITLE_CLASSNAME} a:not(.${DomUtils.SET_AS_NTF_BUTTONS})`;
+    let aTag, button, fetchUrl;
 
     for (let notificationDiv of notificationDivs) {
       aTag = notificationDiv.querySelector(query);
@@ -50,13 +50,12 @@ export default class DomUtils {
   }
 
   static renderButton(aTag, button) {
-    let notificationTitleDiv = aTag.closest(`.${Notification.TITLE_CLASSNAME}`);
-    let datetimeSpan = notificationTitleDiv.firstElementChild;
+    const notificationTitleDiv = aTag.closest(`.${Notification.TITLE_CLASSNAME}`);
+    const datetimeSpan = notificationTitleDiv.firstElementChild;
     button.renderBefore(datetimeSpan);
   }
 
   static renderClearAllButton(button) {
-    // TODO(benoit) insert it at the right spot
     button.renderBefore(document.querySelector('.cloudHeader-grnNotification-update-grn'));
   }
 }

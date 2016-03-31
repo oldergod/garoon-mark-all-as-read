@@ -61,9 +61,11 @@ export default class Button {
 
   static closeNotificationDom(ntfTopDiv) {
     const currentHeight = window.getComputedStyle(ntfTopDiv).getPropertyValue('height');
-    ntfTopDiv.style.height = currentHeight;
     requestAnimationFrame(() => {
-      ntfTopDiv.classList.add('maar-fadeout');
+      ntfTopDiv.style.height = currentHeight;
+      requestAnimationFrame(() => {
+        ntfTopDiv.classList.add('maar-fadeout');
+      });
     });
 
     return new Promise((resolve) => {
@@ -89,21 +91,29 @@ export default class Button {
     const unreadLeft = parseInt(span.innerText, 10);
     if (unreadLeft > 1) {
       span.innerText = (unreadLeft - 1).toString();
+      fetch('/g/grn/ajax_get_data_notification.csp', {
+        method: 'POST',
+        credentials: 'include'
+      });
     } else {
-      span.innerText = '';
-      span.style.display = 'none';
-      // TODO(benoit) should do it with the api for each number, not only #issue-6
-      // We also should probably
-      // - recheck if there is or no left new unread ntf on the esever
-      //   - if yes, just click the reload button
-      //   - if no, just hide it (but still say garoon we 既読化 them)
-
-      // TODO(benoit) 2016/2/16 call API check issues
-      document.querySelector('#popup_notification_header .cloudHeader-grnNotification-update-grn').click();
-
-      // we close the notifications popup
-      // document.querySelector('.cloudHeader-dropdownMenu-grn').classList.remove('cloudHeader-dropdownMenu-open-grn');
+      Button.emptyNotificationNumber(span);
     }
+  }
+
+  static emptyNotificationNumber(span = document.getElementById('notification_number')) {
+    span.innerText = '';
+    span.style.display = 'none';
+    // TODO(benoit) should do it with the api for each number, not only #issue-6
+    // We also should probably
+    // - recheck if there is or no left new unread ntf on the server
+    //   - if yes, just click the reload button
+    //   - if no, just hide it (but still say garoon we 既読化 them)
+
+    // TODO(benoit) 2016/2/16 call API check issues
+    document.querySelector('#popup_notification_header .cloudHeader-grnNotification-update-grn').click();
+
+    // we close the notifications popup
+    // document.querySelector('.cloudHeader-dropdownMenu-grn').classList.remove('cloudHeader-dropdownMenu-open-grn');
   }
 
   static adjustPopupHeight() {
