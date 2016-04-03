@@ -1,0 +1,122 @@
+@mixin keyframes_($name) {
+  @keyframes #{$name} {
+    @content
+  }
+}
+
+@mixin anim_($animName, $steps, $animNbr, $animParams) {
+  .#{$animName} {
+    @content;
+    animation: $animName steps($steps) $animParams;
+  }
+  @include keyframes_($animName) {
+    from {
+      background-position: 0px (-$spriteHeight * ($animNbr - 1));
+    }
+    to {
+      background-position: -($spriteWidth * $steps) (-$spriteHeight * ($animNbr - 1));
+    }
+  }
+}
+
+.flip {
+  transform: scaleX(-1);
+}
+
+// sprite dimensions
+$spriteWidth: 70px;
+$spriteHeight: 80px;
+
+// ken character
+.ken, .hado {
+  position: absolute;
+  bottom: 112px;
+  transform: translateX(90px);
+  width: $spriteWidth;
+  height: $spriteHeight;
+  background-image: contents-image-url('argo/osf/ken.png');
+
+  // shadow
+  &:before {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    bottom: -2px;
+    left: 17px;
+    right: 17px;
+    height: 6px;
+    background-color: rgba(0, 0, 0, .4);
+    border-radius: 50%;
+    box-shadow: 0 0 5px;
+  }
+}
+
+.hado.explode:before {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+/* ken's hado */
+@include anim_($animName: hado, $steps: 2, $animNbr: 5, $animParams: .15s infinite) {
+  @extend .ken;
+  position: absolute;
+  bottom: 0px;
+  margin-left: 0; // default margin-left
+  background-position: 140px 320px; // default background position
+  transition: margin 6s linear;
+  &:before {
+    left: 25px;
+    right: 25px;
+  }
+  &.moving {
+    margin-left: 2000px;
+  }
+  // triggering the movement with this class
+}
+
+/* ken's hado impact explosion */
+@include anim_($animName: explode, $steps: 4, $animNbr: 6, $animParams: .5s 1);
+/* stance */
+@include anim_($animName: stance, $steps: 4, $animNbr: 2, $animParams: .5s infinite);
+/* hadoken - must be declared AFTER .stance */
+@include anim_($animName: hadoken, $steps: 4, $animNbr: 1, $animParams: .5s infinite);
+/* punch */
+@include anim_($animName: punch, $steps: 3, $animNbr: 3, $animParams: .15s infinite);
+/* walking */
+@include anim_($animName: walk, $steps: 5, $animNbr: 4, $animParams: .5s infinite);
+/* kick */
+@include anim_($animName: kick, $steps: 5, $animNbr: 7, $animParams: .5s infinite);
+/* reverse kick */
+@include anim_($animName: reversekick, $steps: 5, $animNbr: 8, $animParams: .5s infinite);
+/* kneel down */
+@include anim_($animName: kneel, $steps: 1, $animNbr: 10, $animParams: .2s infinite);
+/* jump */
+@include anim_($animName: jump, $steps: 7, $animNbr: 9, $animParams: 1s infinite) {
+  transition: bottom .5s cubic-bezier(0.990, 0.005, 0.000, 0.420);
+  bottom: 225px;
+  &.down {
+    bottom: 112px;
+  }
+}
+
+/* shoryuken */
+@include anim_($animName: shoryuken, $steps: 7, $animNbr: 1, $animParams: 1s infinite) {
+  height: 110px;
+  background-image: contents-image-url('argo/osf/ken-shoryuken.png');
+  transition: bottom .5s cubic-bezier(0.990, 0.005, 0.000, 0.420);
+  bottom: 225px;
+  &.down {
+    bottom: 112px;
+  }
+}
+
+/* tatsumaki senpuu kyaku */
+@include anim_($animName: tatsumaki, $steps: 13, $animNbr: 1, $animParams: 2s infinite) {
+  height: 110px;
+  background-image: contents-image-url('argo/osf/ken-tatsumaki-senpuu-kyaku.png');
+  transition: bottom .2s cubic-bezier(0.990, 0.005, 0.000, 0.420);
+  bottom: 132px;
+  &.down {
+    bottom: 112px;
+  }
+}
