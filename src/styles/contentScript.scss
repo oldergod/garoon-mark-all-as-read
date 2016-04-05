@@ -20,7 +20,7 @@
   height: 18px;
   width: 18px;
   cursor: pointer;
-  background: center center no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/assets/ic_clear_18dp.png') center center no-repeat;
   opacity: .45;
   outline: 0;
   &:hover {
@@ -33,7 +33,7 @@
 }
 
 .maar-clear-all {
-  background: center center no-repeat;
+  background: url('chrome-extension://__MSG_@@extension_id__/assets/ic_clear_all_18dp.png') center center no-repeat;
   border: none;
   height: 27px;
   width: 27px;
@@ -66,3 +66,5 @@ $subDuration: 200ms;
   -webkit-filter: blur(2px);
   background-color: #E7FDE7 !important;
 }
+
+@import 'ken';

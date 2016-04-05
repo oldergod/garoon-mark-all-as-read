@@ -1,78 +1,18 @@
 'use strict';
-/**
- * @fileoverview Ken
- */
+
+import Hadoken from './Hadoken';
 
 export default class Ken {
   constructor() {
-    this.hado_;
-
-    this.registerKeyboardShortcuts_();
+    this.hadoken_;
 
     this.bodyInterval_;
   }
 
   createDom() {
-    var el = goog.soy.renderAsElement(gaia.argoui.osf.ken.soy.div, {
-      divClass: 'ken stance'
-    }, null, this.getDomHelper());
-    this.setElementInternal(el);
-  }
-
-  registerKeyboardShortcuts_() {
-    var hotKey = gaia.argoui.Hotkey.create();
-    var keyCodes = goog.events.KeyCodes;
-    cybozu.ui.hotkeyContainer.add(hotKey);
-    hotKey.register(keyCodes.RIGHT, this.handleInputRight_, {
-      scope: this,
-      repeatable: true,
-      cancelOnTyping: true
-    });
-    hotKey.register(keyCodes.LEFT, this.handleInputLeft_, {
-      scope: this,
-      repeatable: true,
-      cancelOnTyping: true
-    });
-    hotKey.register(keyCodes.UP, this.handleInputUp_, {
-      scope: this,
-      repeatable: true,
-      cancelOnTyping: true
-    });
-    hotKey.register(keyCodes.DOWN, this.handleInputDown_, {
-      scope: this,
-      repeatable: true,
-      cancelOnTyping: true
-    });
-    hotKey.register(keyCodes.SPACE, this.handleInputSpace_, {
-      scope: this,
-      cancelOnTyping: true
-    });
-    hotKey.register(keyCodes.Q, this.handleInputQ_, {
-      scope: this,
-      cancelOnTyping: true
-    });
-    hotKey.register(keyCodes.W, this.handleInputW_, {
-      scope: this,
-      cancelOnTyping: true
-    });
-    hotKey.register(keyCodes.E, this.handleInputE_, {
-      scope: this,
-      cancelOnTyping: true
-    });
-    hotKey.register(keyCodes.A, this.handleInputA_, {
-      scope: this,
-      cancelOnTyping: true
-    });
-    hotKey.register(keyCodes.S, this.handleInputS_, {
-      scope: this,
-      cancelOnTyping: true
-    });
-    hotKey.register(keyCodes.D, this.handleInputD_, {
-      scope: this,
-      cancelOnTyping: true
-    });
-    hotKey.generateHelp('js.cybozu.page.ntf.keyboard');
-    hotKey.start();
+    this.element = document.createElement('div');
+    this.element.classList.add('ken', 'stance');
+    return this.element;
   }
 
   static get ACTIONS() {
@@ -82,54 +22,47 @@ export default class Ken {
         duration: 150,
         hitAction: true,
         jumpAction: false,
-        soundName: 'huh1'
       },
       KICK: {
         className: 'kick',
         duration: 500,
         hitAction: true,
         jumpAction: false,
-        soundName: 'huh3'
       },
       REVERSEKICK: {
         className: 'reversekick',
         duration: 500,
         hitAction: true,
         jumpAction: false,
-        soundName: 'huh2'
       },
       TATSUMAKI: {
         className: 'tatsumaki',
         duration: 2000,
         jumpAction: true,
         hitAction: true,
-        soundName: 'tatsumaki'
       },
       HADOKEN: {
         className: 'hadoken',
         duration: 500,
         jumpAction: false,
         hitAction: true,
-        soundName: 'hado'
       },
       SHORYUKEN: {
         className: 'shoryuken',
         duration: 1000,
         jumpAction: true,
         hitAction: true,
-        soundName: 'shoryu'
       },
       JUMP: {
         className: 'jump',
         duration: 900,
         jumpAction: true,
         hitAction: true,
-        soundName: undefined
       }
     }
   }
 
-  static get WALK() {
+  static get WALKS() {
     return {
       RIGHT: 1,
       LEFT: 2,
@@ -138,142 +71,133 @@ export default class Ken {
     }
   }
 
-  handleInputRight_() {
-    this.walk_(gaia.argoui.osf.Ken.WALK.RIGHT);
+  static get STANCES() {
+    return {
+      DOWN: 'down',
+      MOVING: 'moving',
+      WALK: 'walk',
+    }
   }
 
-  handleInputLeft_() {
-    this.walk_(gaia.argoui.osf.Ken.WALK.LEFT);
+  walkRight() {
+    this.walk(Ken.WALKS.RIGHT);
   }
 
-  handleInputUp_() {
-    this.walk_(gaia.argoui.osf.Ken.WALK.UP);
+  walkLeft() {
+    this.walk(Ken.WALKS.LEFT);
   }
 
-  handleInputDown_() {
-    this.walk_(gaia.argoui.osf.Ken.WALK.DOWN);
+  walkUp() {
+    this.walk(Ken.WALKS.UP);
   }
 
-  walk_(orientation) {
-    var element = this.getElement();
-    goog.dom.classlist.add(element, 'walk');
+  walkDown() {
+    this.walk(Ken.WALKS.DOWN);
+  }
+
+  walk(orientation) {
+    this.element.classList.add('walk');
     //.css({ marginLeft:'+=10px' });
-    var matrix = goog.style.getComputedStyle(element, 'transform');
-    var _array = matrix.split(', ');
-    var x = parseInt(_array[_array.length - 2], 10);
-    var y = parseInt(_array[_array.length - 1], 10);
+    const matrix = window.getComputedStyle(this.element).getPropertyValue('transform');
+    const _array = matrix.split(', ');
+    let x = parseInt(_array[_array.length - 2], 10);
+    let y = parseInt(_array[_array.length - 1], 10);
     switch (orientation) {
-      case gaia.argoui.osf.Ken.WALK.LEFT:
+      case Ken.WALKS.LEFT:
         x -= 10;
         break;
-      case gaia.argoui.osf.Ken.WALK.UP:
+      case Ken.WALKS.UP:
         y -= 7;
         break;
-      case gaia.argoui.osf.Ken.WALK.RIGHT:
+      case Ken.WALKS.RIGHT:
         x += 10;
         break;
-      case gaia.argoui.osf.Ken.WALK.DOWN:
+      case Ken.WALKS.DOWN:
         y += 7;
         break;
     }
-    element.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+    this.element.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
     if (this.bodyInterval_ > 0) {
       clearInterval(this.bodyInterval_);
     }
-    this.bodyInterval_ = setTimeout(function() {
-      goog.dom.classlist.remove(element, 'walk');
+    this.bodyInterval_ = setTimeout(() => {
+      this.element.classList.remove(Ken.WALK);
     }, 50);
   }
 
-  handleInputQ_() {
-    this.applyAction_(gaia.argoui.osf.Ken.ACTIONS.REVERSEKICK);
+  reverseKick() {
+    this.applyAction(Ken.ACTIONS.REVERSEKICK);
   }
 
-  handleInputSpace_() {
-    this.applyAction_(gaia.argoui.osf.Ken.ACTIONS.JUMP);
+  jump() {
+    this.applyAction(Ken.ACTIONS.JUMP);
   }
 
-  handleInputW_() {
-    this.applyAction_(gaia.argoui.osf.Ken.ACTIONS.TATSUMAKI);
+  tatsumaki() {
+    this.applyAction(Ken.ACTIONS.TATSUMAKI);
   }
 
-  handleInputE_() {
-    this.applyAction_(gaia.argoui.osf.Ken.ACTIONS.SHORYUKEN);
+  shoryuken() {
+    this.applyAction(Ken.ACTIONS.SHORYUKEN);
   }
 
-  handleInputA_() {
-    this.applyAction_(gaia.argoui.osf.Ken.ACTIONS.KICK);
+  kick() {
+    this.applyAction(Ken.ACTIONS.KICK);
   }
 
-  handleInputS_() {
-    this.applyAction_(gaia.argoui.osf.Ken.ACTIONS.HADOKEN);
+  hadoken() {
+    this.applyAction(Ken.ACTIONS.HADOKEN);
   }
 
-  handleInputD_() {
-    this.applyAction_(gaia.argoui.osf.Ken.ACTIONS.PUNCH);
+  punch() {
+    this.applyAction(Ken.ACTIONS.PUNCH);
   }
 
-  static get DOWN() {
-    return 'down'
-  }
-
-  static get MOVING() {
-    return 'moving';
-  }
-
-  applyAction_(action) {
-    var self = this;
-    var element = self.getElement();
-    if (goog.array.contains(goog.dom.classlist.get(element), gaia.argoui.osf.Ken.MOVING)) {
+  applyAction(action) {
+    if (this.element.classList.contains(Ken.MOVING)) {
       return;
     }
     switch (action) {
-      case gaia.argoui.osf.Ken.ACTIONS.HADOKEN:
-        setTimeout(function() {
-          self.createAndRenderHado_();
+      case Ken.ACTIONS.HADOKEN:
+        setTimeout(() => {
+          this.createAndRenderHado();
         }, 250);
         break;
     }
     if (action.hitAction) {
-      var attackInterval = setInterval(function() {
-        self.dispatchEvent(new gaia.argoui.osf.AttackEvent(self));
+      const attackInterval = setInterval(() => {
+        // this.dispatchEvent(new AttackEvent(this));
       }, 100);
-      setTimeout(function() {
+      setTimeout(() => {
         clearInterval(attackInterval);
       }, action.duration * 0.8);
     }
 
-    goog.dom.classlist.addAll(element, [gaia.argoui.osf.Ken.MOVING, action.className]);
+    this.element.classList.add(Ken.MOVING, action.className);
     if (action.jumpAction) {
-      setTimeout(function() {
-        goog.dom.classlist.add(element, gaia.argoui.osf.Ken.DOWN);
+      setTimeout(() => {
+        this.element.classList.add(Ken.DOWN);
       }, action.duration - 500);
     }
-    if (action.soundName) {
-      gaia.argoui.osf.Ken.playSound(action.soundName);
-    }
-    setTimeout(function() {
+    setTimeout(() => {
       if (action.jumpAction) {
-        goog.dom.classlist.remove(element, gaia.argoui.osf.Ken.DOWN);
+        this.element.classList.remove(Ken.DOWN);
       }
-      goog.dom.classlist.removeAll(element, [gaia.argoui.osf.Ken.MOVING, action.className]);
+      this.element.classList.remove(Ken.MOVING, action.className);
     }, action.duration);
   }
 
-  removeClass_(className) {
-    goog.dom.classlist.remove(this.getElement(), className);
-  }
-
-  createAndRenderHado_() {
-    this.hado_ = new gaia.argoui.osf.Hado(this);
-    this.hado_.render(this.getElement());
+  createAndRenderHado() {
+    this.hadoken_ = new Hado(this);
+    this.hadoken_.render(this.element);
   }
 
   getOffset() {
-    return this.getElement().getBoundingClientRect();
-    //return goog.style.getPageOffset(this.getElement());
+    return this.element.getBoundingClientRect();
+    //return goog.style.getPageOffset(this.element);
   }
 
   static get ATTACK_EVENT() {
     return 'ken_attack_event';
   }
+}

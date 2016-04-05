@@ -34,7 +34,7 @@ $spriteHeight: 80px;
   transform: translateX(90px);
   width: $spriteWidth;
   height: $spriteHeight;
-  background-image: contents-image-url('argo/osf/ken.png');
+  background-image: url('chrome-extension://__MSG_@@extension_id__/assets/ken.png');
 
   // shadow
   &:before {
@@ -102,7 +102,7 @@ $spriteHeight: 80px;
 /* shoryuken */
 @include anim_($animName: shoryuken, $steps: 7, $animNbr: 1, $animParams: 1s infinite) {
   height: 110px;
-  background-image: contents-image-url('argo/osf/ken-shoryuken.png');
+  background-image: url('chrome-extension://__MSG_@@extension_id__/assets/ken-shoryuken.png');
   transition: bottom .5s cubic-bezier(0.990, 0.005, 0.000, 0.420);
   bottom: 225px;
   &.down {
@@ -113,7 +113,7 @@ $spriteHeight: 80px;
 /* tatsumaki senpuu kyaku */
 @include anim_($animName: tatsumaki, $steps: 13, $animNbr: 1, $animParams: 2s infinite) {
   height: 110px;
-  background-image: contents-image-url('argo/osf/ken-tatsumaki-senpuu-kyaku.png');
+  background-image: url('chrome-extension://__MSG_@@extension_id__/assets/ken-tatsumaki-senpuu-kyaku.png');
   transition: bottom .2s cubic-bezier(0.990, 0.005, 0.000, 0.420);
   bottom: 132px;
   &.down {

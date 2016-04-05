@@ -24,10 +24,6 @@ export default class Button {
     return '<div class="maar-cross-wrapper"><div class="maar-cross" title="\u901A\u77E5\u3092\u65E2\u8AAD\u306B\u3059\u308B"></div></div>';
   }
 
-  static get BACKGROUND_IMAGE_URL() {
-    return chrome.extension.getURL('assets/ic_clear_18dp.png');
-  }
-
   createDom() {
     const crossWrapper = document.createElement('div');
     crossWrapper.classList.add(Button.CROSS_WRAPPER_CLASSNAME);
@@ -35,7 +31,6 @@ export default class Button {
     cross.classList.add(Button.CROSS_CLASSNAME);
     // 通知を既読にする
     cross.title = '\u901A\u77E5\u3092\u65E2\u8AAD\u306B\u3059\u308B';
-    cross.style.backgroundImage = 'url(' + Button.BACKGROUND_IMAGE_URL + ')';
     crossWrapper.appendChild(cross);
     return crossWrapper;
   }

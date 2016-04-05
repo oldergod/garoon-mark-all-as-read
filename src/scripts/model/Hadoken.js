@@ -4,25 +4,15 @@ export default class Hadoken {
   constructor(ken) {
     this.ken_ = ken;
 
-    /**
-     * @type {number}
-     * @private
-     */
     this.fireInterval_;
 
-    /**
-     *
-     * @type {boolean}
-     * @private
-     */
     this.hasHit_ = false;
   }
 
   createDom() {
-    var el = goog.soy.renderAsElement(gaia.argoui.osf.ken.soy.div, {
-      divClass: 'hado'
-    }, null, this.getDomHelper());
-    this.setElementInternal(el);
+    this.element = document.createElement('div');
+    this.element.classList.add('hado');
+    return this.element;
   }
 
   enterDocument() {
@@ -66,3 +56,4 @@ export default class Hadoken {
     return this.getElement().getBoundingClientRect();
     //return goog.style.getPageOffset(this.getElement());
   }
+}
