@@ -11,40 +11,39 @@ export default class Hadoken {
 
   createDom() {
     this.element = document.createElement('div');
-    this.element.classList.add('hado');
+    this.element.classList.add('hadoken');
     return this.element;
+  }
+
+  render() {
+    if (!this.element) {
+      this.createDom();
+    }
+    this.ken_.element.appendChild(this.element);
   }
 
   enterDocument() {
     gaia.argoui.osf.Hado.base(this, 'enterDocument');
 
-    var self = this;
-    setTimeout(function() {
-      goog.dom.classlist.add(self.getElement(), 'moving');
+    setTimeout(() => {
+      goog.dom.classlist.add(this.element, 'moving');
     }, 20);
 
     self.fireInterval_ = setInterval(function() {
-      self.ken_.dispatchEvent(new gaia.argoui.osf.FireEvent(self));
+      // self.ken_.dispatchEvent(new gaia.argoui.osf.FireEvent(self));
     }, 100);
-    setTimeout(function() {
-      self.hit();
-    }, 3500);
   }
 
   hit() {
     if (!this.hasHit_) {
       this.hasHit_ = true;
-      var self = this;
-      clearInterval(self.fireInterval_);
+      clearInterval(this.fireInterval_);
 
-      goog.dom.classlist.addRemove(self.getElement(), 'moving', 'explode');
+      goog.dom.classlist.addRemove(this.element, 'moving', 'explode');
       // remove 'moving' would make it go back to its initial transform,
       // so we need to balance this while exploding
-      var left = window.getComputedStyle(this.getElement()).getPropertyValue('margin-left');
-      this.getElement().style.marginLeft = (parseInt(left, 10) + 62) + 'px';
-      setTimeout(function() {
-        self.dispose();
-      }, 3000);
+      var left = window.getComputedStyle(this.element).getPropertyValue('margin-left');
+      this.element.style.marginLeft = (parseInt(left, 10) + 62) + 'px';
     }
   }
 
@@ -53,7 +52,6 @@ export default class Hadoken {
   }
 
   getOffset() {
-    return this.getElement().getBoundingClientRect();
-    //return goog.style.getPageOffset(this.getElement());
+    return this.element.getBoundingClientRect();
   }
 }

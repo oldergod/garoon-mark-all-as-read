@@ -157,12 +157,10 @@ export default class Ken {
     if (this.element.classList.contains(Ken.MOVING)) {
       return;
     }
-    switch (action) {
-      case Ken.ACTIONS.HADOKEN:
-        setTimeout(() => {
-          this.createAndRenderHado();
-        }, 250);
-        break;
+    if (action.className === Ken.ACTIONS.HADOKEN.className) {
+      setTimeout(() => {
+        this.createAndRenderHado();
+      }, 250);
     }
     if (action.hitAction) {
       const attackInterval = setInterval(() => {
@@ -188,13 +186,12 @@ export default class Ken {
   }
 
   createAndRenderHado() {
-    this.hadoken_ = new Hado(this);
-    this.hadoken_.render(this.element);
+    this.hadoken_ = new Hadoken(this);
+    this.hadoken_.render();
   }
 
   getOffset() {
     return this.element.getBoundingClientRect();
-    //return goog.style.getPageOffset(this.element);
   }
 
   static get ATTACK_EVENT() {
