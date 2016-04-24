@@ -23,10 +23,13 @@
 // sprite dimensions
 $spriteWidth: 70px;
 $spriteHeight: 80px; // ken character
+
+$kenBotton: 150px;
+
 .hadoken,
 .ken {
   position: absolute;
-  top: 70px;
+  bottom: $kenBotton;
   // garoon header is at 1000
   z-index: 1001;
   transform: translateX(90px);
@@ -55,6 +58,7 @@ $spriteHeight: 80px; // ken character
 @include anim_($animName: hadoken, $steps: 2, $animNbr: 5, $animParams: .15s infinite) {
    @extend .ken;
   position: absolute;
+  top: 0;
   bottom: 0;
   margin-left: 0; // default margin-left
   background-position: 140px 320px; // default background position
@@ -68,12 +72,12 @@ $spriteHeight: 80px; // ken character
   }
   // triggering the movement with this class
 }
-/* ken's hado impact explosion */
+/* ken's hadoken impact explosion */
 @include anim_($animName: explode, $steps: 4, $animNbr: 6, $animParams: .5s 1);
 /* stance */
 @include anim_($animName: stance, $steps: 4, $animNbr: 2, $animParams: .5s infinite);
-/* hadoken - must be declared AFTER .stance */
-@include anim_($animName: hadoken, $steps: 4, $animNbr: 1, $animParams: .5s infinite);
+/* hado - must be declared AFTER .stance */
+@include anim_($animName: hado, $steps: 4, $animNbr: 1, $animParams: .5s infinite);
 /* punch */
 @include anim_($animName: punch, $steps: 3, $animNbr: 3, $animParams: .15s infinite);
 /* walking */
@@ -87,9 +91,9 @@ $spriteHeight: 80px; // ken character
 /* jump */
 @include anim_($animName: jump, $steps: 7, $animNbr: 9, $animParams: 1s infinite) {
   transition: bottom 0.5s cubic-bezier(0.990, 0.005, 0.000, 0.420);
-  bottom: 225px;
+  bottom: calc(#{$kenBotton} + 113px);
   &.down {
-    bottom: 112px;
+    bottom: $kenBotton;
   }
 }
 /* shoryuken */
@@ -97,9 +101,9 @@ $spriteHeight: 80px; // ken character
   height: 110px;
   background-image: url('chrome-extension://__MSG_@@extension_id__/assets/ken-shoryuken.png');
   transition: bottom 0.5s cubic-bezier(0.990, 0.005, 0.000, 0.420);
-  bottom: 225px;
+  bottom: calc(#{$kenBotton} + 113px);
   &.down {
-    bottom: 112px;
+    bottom: $kenBotton;
   }
 }
 /* tatsumaki senpuu kyaku */
@@ -107,8 +111,8 @@ $spriteHeight: 80px; // ken character
   height: 110px;
   background-image: url('chrome-extension://__MSG_@@extension_id__/assets/ken-tatsumaki-senpuu-kyaku.png');
   transition: bottom 0.2s cubic-bezier(0.990, 0.005, 0.000, 0.420);
-  bottom: 132px;
+  bottom: calc(#{$kenBotton} + 20px);
   &.down {
-    bottom: 112px;
+    bottom: $kenBotton;
   }
 }

@@ -126,16 +126,27 @@ gulp.task('scripts', function(done) {
 
 gulp.task('watch', function() {
   livereload.listen();
-  gulp.watch([
-    'src/scripts/**/*.js',
-    'src/styles/**/*'
-  ]).on('change', livereload.reload);
 
-  gulp.watch(stylesSourcePath, ['styles']);
-  gulp.watch(manifestPath_(), ['manifest']);
-  gulp.watch(assetsPath, ['assets']);
+  gulp.watch(stylesSourcePath, function() {
+    return runSequence('styles', 'livereloadReload');
+  });
+  gulp.watch(manifestPath_(), function() {
+    return runSequence('manifest', 'livereloadReload');
+  });
+  gulp.watch(assetsPath, function() {
+    return runSequence('assets', 'livereloadReload');
+  });
 
-  watchBundles();
+  gulp.watch(scriptsSourcePath, function() {
+    return runSequence('scripts', 'livereloadReload');
+  });
+
+  // cannot get it working...
+  // watchBundles();
+});
+
+gulp.task('livereloadReload', function() {
+  livereload.reload();
 });
 
 function manifestPath_() {

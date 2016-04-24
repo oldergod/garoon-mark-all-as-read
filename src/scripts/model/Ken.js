@@ -41,8 +41,8 @@ export default class Ken {
         jumpAction: true,
         hitAction: true,
       },
-      HADOKEN: {
-        className: 'hadoken',
+      HADO: {
+        className: 'hado',
         duration: 500,
         jumpAction: false,
         hitAction: true,
@@ -79,6 +79,31 @@ export default class Ken {
     }
   }
 
+  resetWalk(evt) {
+    this.element.style.transition = 'initial';
+    this.element.classList.remove(Ken.STANCES.MOVING, Ken.STANCES.WALK);
+    this.element.removeEventListener('transitionend', this.resetWalk);
+
+    evt.stopPropagation();
+  }
+
+  walkFromToX({from, to, duration}) {
+    if (this.element.classList.contains(Ken.STANCES.MOVING)) {
+      return;
+    }
+    this.element.classList.add(Ken.STANCES.MOVING, Ken.STANCES.WALK);
+
+    this.element.style.transform = `translateX(${from}px)`;
+    //
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.element.style.transition = `transform ${duration}ms linear`;
+        this.element.style.transform = `translateX(${to}px)`;
+      });
+    });
+    this.element.addEventListener('transitionend', this.resetWalk.bind(this));
+  }
+
   walkRight() {
     this.walk(Ken.WALKS.RIGHT);
   }
@@ -96,7 +121,7 @@ export default class Ken {
   }
 
   walk(orientation) {
-    this.element.classList.add('walk');
+    this.element.classList.add(Ken.STANCES.WALK);
     //.css({ marginLeft:'+=10px' });
     const matrix = window.getComputedStyle(this.element).getPropertyValue('transform');
     const _array = matrix.split(', ');
@@ -121,7 +146,7 @@ export default class Ken {
       clearInterval(this.bodyInterval_);
     }
     this.bodyInterval_ = setTimeout(() => {
-      this.element.classList.remove(Ken.WALK);
+      this.element.classList.remove(Ken.STANCES.WALK);
     }, 50);
   }
 
@@ -146,7 +171,7 @@ export default class Ken {
   }
 
   hadoken() {
-    this.applyAction(Ken.ACTIONS.HADOKEN);
+    this.applyAction(Ken.ACTIONS.HADO);
   }
 
   punch() {
@@ -154,12 +179,14 @@ export default class Ken {
   }
 
   applyAction(action) {
-    if (this.element.classList.contains(Ken.MOVING)) {
+    if (this.element.classList.contains(Ken.STANCES.MOVING)) {
       return;
     }
-    if (action.className === Ken.ACTIONS.HADOKEN.className) {
+    this.element.classList.add(Ken.STANCES.MOVING, action.className);
+
+    if (action.className === Ken.ACTIONS.HADO.className) {
       setTimeout(() => {
-        this.createAndRenderHado();
+        this.createAndRenderHadoken();
       }, 250);
     }
     if (action.hitAction) {
@@ -168,24 +195,23 @@ export default class Ken {
       }, 100);
       setTimeout(() => {
         clearInterval(attackInterval);
-      }, action.duration * 0.8);
+      }, action.duration * 0.8); // TODO(benoit) what is this?
     }
 
-    this.element.classList.add(Ken.MOVING, action.className);
     if (action.jumpAction) {
       setTimeout(() => {
-        this.element.classList.add(Ken.DOWN);
+        this.element.classList.add(Ken.STANCES.DOWN);
       }, action.duration - 500);
     }
     setTimeout(() => {
       if (action.jumpAction) {
-        this.element.classList.remove(Ken.DOWN);
+        this.element.classList.remove(Ken.STANCES.DOWN);
       }
-      this.element.classList.remove(Ken.MOVING, action.className);
+      this.element.classList.remove(Ken.STANCES.MOVING, action.className);
     }, action.duration);
   }
 
-  createAndRenderHado() {
+  createAndRenderHadoken() {
     this.hadoken_ = new Hadoken(this);
     this.hadoken_.render();
   }

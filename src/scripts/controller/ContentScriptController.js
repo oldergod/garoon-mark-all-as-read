@@ -22,10 +22,21 @@ export default class ContentScriptController {
       });
     });
 
+    // debug
     this.ken = new Ken();
     console.log(this.ken);
-    document.body.appendChild(this.ken.createDom());
-    
+    requestAnimationFrame(() => {
+      document.body.appendChild(this.ken.createDom());
+      requestAnimationFrame(() => {
+        this.ken.walkFromToX({
+          from: -50,
+          to: 300,
+          // not really nice. Better be moving ken via requestAnimationFrame
+          // instead of CSS.
+          duration: 2000
+        });
+      });
+    });
   }
 
   observe() {
