@@ -31,10 +31,15 @@ export default class ContentScriptController {
         this.ken.walkFromToX({
           from: -50,
           to: 300,
-          // not really nice. Better be moving ken via requestAnimationFrame
+          // not really smooth. Better be moving ken via requestAnimationFrame
           // instead of CSS.
           duration: 2000
-        });
+        })
+        // .then(() => this.ken.hadoken())
+        .then(() => this.ken.shoryuken())
+        .then(() => this.ken.tatsumaki())
+        .then(() => this.ken.hadoken())
+        .then(() => this.ken.tatsumaki());
       });
     });
   }
