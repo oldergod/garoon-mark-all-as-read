@@ -3,7 +3,7 @@
 import Hadoken from './Hadoken';
 
 export default class Ken {
-  constructor() {
+  constructor(kenTop) {
     this.hadoken_ = null;
     this.bodyInterval_ = null;
 
@@ -12,6 +12,10 @@ export default class Ken {
 
     this.resetWalkBound_ = this.resetWalk.bind(this);
     this.unapplyActionBound_ = this.unapplyAction.bind(this);
+
+    if (kenTop) {
+      document.documentElement.style.setProperty('--ken-top', kenTop + 'px');
+    }
   }
 
   newAnimationIterationPromise() {
@@ -19,7 +23,7 @@ export default class Ken {
     return new Promise((resolve, _) => {
       this.resolver_ = () => {
         // console.log('it is resolved!');
-        resolve();
+        resolve(this.hadoken_);
       };
     });
   }
@@ -37,7 +41,7 @@ export default class Ken {
     return new Promise((resolve, _) => {
       this.resolver_ = () => {
         // console.log('it is resolved!');
-        resolve();
+        resolve(this.hadoken_);
       };
     });
   }
@@ -67,6 +71,7 @@ export default class Ken {
     evt.stopPropagation();
   }
 
+  // TODO(benoit) try with requestAnimationFrame to see if render is better
   walkFromToX({
     from,
     to,
@@ -77,13 +82,14 @@ export default class Ken {
     }
     this.element.classList.add(Ken.STANCES.MOVING, Ken.STANCES.WALK);
 
-    this.element.style.transform = `translateX(${from}px)`;
+    const flipped = to < from;
+    const scaleStyle = flipped ? ' scaleX(-1)' : '';
+    this.element.style.transform = `translateX(${from}px)${scaleStyle}`;
+    this.element.getBoundingClientRect();
     //
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        this.element.style.transition = `transform ${duration}ms linear`;
-        this.element.style.transform = `translateX(${to}px)`;
-      });
+      this.element.style.transition = `transform ${duration}ms linear`;
+      this.element.style.transform = `translateX(${to}px)${scaleStyle}`;
     });
     this.element.addEventListener('transitionend', this.resetWalkBound_);
 
@@ -171,7 +177,7 @@ export default class Ken {
 
     const action = this.currentAction_;
     this.currentAction_ = null;
-    console.log('unapplying', action, evt);
+    // console.log('unapplying', action, evt);
 
     if (action.jumpAction) {
       this.element.classList.remove(Ken.STANCES.DOWN);
@@ -225,6 +231,11 @@ export default class Ken {
 
   getOffset() {
     return this.element.getBoundingClientRect();
+  }
+
+  static remove(ken) {
+    ken.element.remove();
+    ken = null;
   }
 
   static get ATTACK_EVENT() {
@@ -293,5 +304,9 @@ export default class Ken {
       MOVING: 'moving',
       WALK: 'walk',
     }
+  }
+
+  static get HEIGHT() {
+    return '80';
   }
 }

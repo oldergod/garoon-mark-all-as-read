@@ -24,12 +24,13 @@
 $spriteWidth: 70px;
 $spriteHeight: 80px; // ken character
 
-$kenBotton: 150px;
-
+:root {
+  --ken-top: 250px;
+}
 .hadoken,
 .ken {
-  position: absolute;
-  bottom: $kenBotton;
+  position: fixed;
+  top: var(--ken-top, 150px);
   // garoon header is at 1000
   z-index: 1001;
   transform: translateX(90px);
@@ -67,9 +68,6 @@ $kenBotton: 150px;
     left: 25px;
     right: 25px;
   }
-  &.moving {
-    margin-left: 2000px;
-  }
   // triggering the movement with this class
 }
 /* ken's hadoken impact explosion */
@@ -90,29 +88,29 @@ $kenBotton: 150px;
 @include anim_($animName: kneel, $steps: 1, $animNbr: 10, $animParams: .2s infinite);
 /* jump */
 @include anim_($animName: jump, $steps: 7, $animNbr: 9, $animParams: 1s infinite) {
-  transition: bottom 0.5s cubic-bezier(0.990, 0.005, 0.000, 0.420);
-  bottom: calc(#{$kenBotton} + 113px);
+  transition: top 0.5s cubic-bezier(0.990, 0.005, 0.000, 0.420);
+  top: calc(var(--ken-top, 150px) - 113px);
   &.down {
-    bottom: $kenBotton;
+    top: var(--ken-top, 150px);
   }
 }
 /* shoryuken */
 @include anim_($animName: shoryuken, $steps: 7, $animNbr: 1, $animParams: 1s infinite) {
   height: 110px;
   background-image: url('chrome-extension://__MSG_@@extension_id__/assets/ken-shoryuken.png');
-  transition: bottom 0.5s cubic-bezier(0.990, 0.005, 0.000, 0.420);
-  bottom: calc(#{$kenBotton} + 113px);
+  transition: top 0.5s cubic-bezier(0.990, 0.005, 0.000, 0.420);
+  top: calc(var(--ken-top, 150px) - 113px);
   &.down {
-    bottom: $kenBotton;
+    top: var(--ken-top, 150px);
   }
 }
 /* tatsumaki senpuu kyaku */
 @include anim_($animName: tatsumaki, $steps: 13, $animNbr: 1, $animParams: 2s infinite) {
   height: 110px;
   background-image: url('chrome-extension://__MSG_@@extension_id__/assets/ken-tatsumaki-senpuu-kyaku.png');
-  transition: bottom 0.2s cubic-bezier(0.990, 0.005, 0.000, 0.420);
-  bottom: calc(#{$kenBotton} + 20px);
+  transition: top 0.2s cubic-bezier(0.990, 0.005, 0.000, 0.420);
+  top: calc(var(--ken-top, 150px) - 20px);
   &.down {
-    bottom: $kenBotton;
+    top: var(--ken-top, 150px);
   }
 }

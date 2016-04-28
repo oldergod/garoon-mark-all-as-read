@@ -23,25 +23,24 @@ export default class ContentScriptController {
     });
 
     // debug
-    this.ken = new Ken();
-    console.log(this.ken);
-    requestAnimationFrame(() => {
-      document.body.appendChild(this.ken.createDom());
-      requestAnimationFrame(() => {
-        this.ken.walkFromToX({
-          from: -50,
-          to: 300,
-          // not really smooth. Better be moving ken via requestAnimationFrame
-          // instead of CSS.
-          duration: 2000
-        })
-        // .then(() => this.ken.hadoken())
-        .then(() => this.ken.shoryuken())
-        .then(() => this.ken.tatsumaki())
-        .then(() => this.ken.hadoken())
-        .then(() => this.ken.tatsumaki());
-      });
-    });
+    // this.ken = new Ken();
+    // console.log(this.ken);
+    // requestAnimationFrame(() => {
+    //   document.body.appendChild(this.ken.createDom());
+    //   requestAnimationFrame(() => {
+    //     this.ken.walkFromToX({
+    //       from: -50,
+    //       to: 300,
+    //       // not really smooth. Better be moving ken via requestAnimationFrame
+    //       duration: 2000
+    //     })
+    //     // .then(() => this.ken.hadoken())
+    //     .then(() => this.ken.shoryuken())
+    //     .then(() => this.ken.tatsumaki())
+    //     .then(() => this.ken.hadoken())
+    //     .then(() => this.ken.tatsumaki());
+    //   });
+    // });
   }
 
   observe() {

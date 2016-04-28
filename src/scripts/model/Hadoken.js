@@ -3,8 +3,11 @@
 export default class Hadoken {
   constructor(ken) {
     this.ken_ = ken;
-    this.fireInterval_;
     this.hasHit_ = false;
+    this.hitAt_ = null;
+    this.resolver_ = null;
+    this.currentX = 90;
+    this.startX = 0;
   }
 
   createDom() {
@@ -18,38 +21,39 @@ export default class Hadoken {
       this.createDom();
     }
     this.ken_.element.appendChild(this.element);
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        this.element.classList.add('moving');
-        this.fireInterval_ = setInterval(function() {
-          // self.ken_.dispatchEvent(new gaia.argoui.osf.FireEvent(self));
-        }, 100);
-      });
-    });
+
+    const boundingRect = this.element.getBoundingClientRect();
+    this.startX = boundingRect.left;
+
+    function step() {
+      if (this.hitAt_ && (this.startX + this.currentX) > this.hitAt_) {
+        this.hit();
+        return this.resolver_();
+      }
+
+      this.currentX += 7;
+      this.element.style.transform = `translateX(${this.currentX}px)`;
+
+      requestAnimationFrame(step.bind(this));
+    }
+    requestAnimationFrame(step.bind(this));
+  }
+
+  hitAtY(hitAt) {
+    this.hitAt_ = hitAt;
+    // to be resolve when hit
+    return new Promise((resolve, _) => {
+      this.resolver_ = resolve;
+    })
   }
 
   hit() {
     if (!this.hasHit_) {
       this.hasHit_ = true;
-      clearInterval(this.fireInterval_);
 
       requestAnimationFrame(() => {
-        this.element.classList.remove('moving');
         this.element.classList.add('explode');
-        goog.dom.classlist.addRemove(this.element, 'moving', 'explode');
-        // remove 'moving' would make it go back to its initial transform,
-        // so we need to balance this while exploding
-        var left = window.getComputedStyle(this.element).getPropertyValue('margin-left');
-        this.element.style.marginLeft = (parseInt(left, 10) + 62) + 'px';
       });
     }
-  }
-
-  static get FIRE_EVENT() {
-    return 'hadoken_fire_event';
-  }
-
-  getOffset() {
-    return this.element.getBoundingClientRect();
   }
 }
