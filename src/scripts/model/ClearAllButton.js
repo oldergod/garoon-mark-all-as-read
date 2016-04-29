@@ -22,16 +22,11 @@ export default class ClearAllButton extends Button {
     return 'maar-clear-all';
   }
 
-  static get BACKGROUND_IMAGE_URL() {
-    return chrome.extension.getURL('assets/ic_clear_all_18dp.png');
-  }
-
   createDom() {
     const crossWrapper = document.createElement('span');
     crossWrapper.classList.add(ClearAllButton.CLEAR_ALL_WRAPPER_CLASSNAME);
     const cross = document.createElement('button');
     cross.classList.add(ClearAllButton.CLEAR_ALL_CLASSNAME);
-    cross.style.backgroundImage = 'url(' + ClearAllButton.BACKGROUND_IMAGE_URL + ')';
     // すべての通知を既読にする
     cross.title = '\u3059\u3079\u3066\u306e\u901a\u77e5\u3092\u65e2\u8aad\u306b\u3059\u308b';
     crossWrapper.appendChild(cross);

@@ -1,8 +1,10 @@
+import Ken from './Ken';
 import Notification from '../model/Notification';
 
 export default class Button {
   constructor() {
     this.element_ = null;
+    this.clicked_ = false;
   }
 
   static get DEBUG() {
@@ -24,10 +26,6 @@ export default class Button {
     return '<div class="maar-cross-wrapper"><div class="maar-cross" title="\u901A\u77E5\u3092\u65E2\u8AAD\u306B\u3059\u308B"></div></div>';
   }
 
-  static get BACKGROUND_IMAGE_URL() {
-    return chrome.extension.getURL('assets/ic_clear_18dp.png');
-  }
-
   createDom() {
     const crossWrapper = document.createElement('div');
     crossWrapper.classList.add(Button.CROSS_WRAPPER_CLASSNAME);
@@ -35,7 +33,6 @@ export default class Button {
     cross.classList.add(Button.CROSS_CLASSNAME);
     // 通知を既読にする
     cross.title = '\u901A\u77E5\u3092\u65E2\u8AAD\u306B\u3059\u308B';
-    cross.style.backgroundImage = 'url(' + Button.BACKGROUND_IMAGE_URL + ')';
     crossWrapper.appendChild(cross);
     return crossWrapper;
   }
@@ -47,25 +44,65 @@ export default class Button {
   }
 
   enterDocument() {
-    this.element_.onclick = this.markAsRead_.bind(this);
+    this.element_.addEventListener('click', (event) => {
+      if (this.clicked_) {
+        event.stopPropagation();
+        event.preventDefault();
+        return false;
+      }
+      this.clicked_ = true;
+
+      return this.markAsRead_(event);
+    })
   }
 
-  markAsRead_() {
+  markAsRead_(event) {
     throw 'I am markAsRead_ ! Override me !';
   }
 
   closeNotificationDom_() {
     const notificationTopDiv = this.element_.closest(`.${Notification.DIV_CLASSNAME}`);
+
+    // some random
+    if (+new Date % 30 === 0) {
+      return this.closeNotificationDomSF_(notificationTopDiv);
+    }
+
     return Button.closeNotificationDom(notificationTopDiv);
+  }
+
+  closeNotificationDomSF_(notificationTopDiv) {
+    const ntfBoundingRect = notificationTopDiv.getBoundingClientRect();
+    const ntfMiddleTop = ntfBoundingRect.top + ntfBoundingRect.height / 2;
+    const kenTop = ntfMiddleTop - Ken.HEIGHT / 2;
+    const hadoHitAtY = ntfBoundingRect.left + 50;
+
+    const ken = new Ken(kenTop);
+    document.body.appendChild(ken.createDom());
+    return ken.walkFromToX({
+        from: -50,
+        to: 100,
+        duration: 800,
+      })
+      .then(() => ken.hadoken())
+      .then((hado) => hado.hitAtY(hadoHitAtY))
+      .then(() => Button.closeNotificationDom(notificationTopDiv))
+      .then(() => ken.walkFromToX({
+        from: 100,
+        to: -50,
+        duration: 800,
+      }))
+      .then(() => Ken.remove(ken));
   }
 
   static closeNotificationDom(ntfTopDiv) {
     const currentHeight = window.getComputedStyle(ntfTopDiv).getPropertyValue('height');
     requestAnimationFrame(() => {
       ntfTopDiv.style.height = currentHeight;
-      requestAnimationFrame(() => {
-        ntfTopDiv.classList.add('maar-fadeout');
-      });
+      // trigger layout
+      ntfTopDiv.getBoundingClientRect();
+
+      ntfTopDiv.classList.add('maar-fadeout');
     });
 
     return new Promise((resolve) => {
@@ -118,7 +155,7 @@ export default class Button {
 
   static adjustPopupHeight() {
     const popup_notification_header = document.getElementById('popup_notification_header');
-    if (popup_notification_header.style.height !== '' && popup_notification_header.scrollHeight <= parseInt(popup_notification_header.style.height, 10) + 1) {
+    if (popup_notification_header.style.height !== '' && popup_notification_header.scrollHeight <= parseInt(popup_notification_header.style.height, 10) + 5) {
       popup_notification_header.style.height = '';
     }
   }
