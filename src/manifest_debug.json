@@ -23,6 +23,9 @@
   }],
   "web_accessible_resources": [
     "assets/ic_clear_18dp.png",
-    "assets/ic_clear_all_18dp.png"
+    "assets/ic_clear_all_18dp.png",
+    "assets/ken.png",
+    "assets/ken-shoryuken.png",
+    "assets/ken-tatsumaki-senpuu-kyaku.png"
   ]
 }

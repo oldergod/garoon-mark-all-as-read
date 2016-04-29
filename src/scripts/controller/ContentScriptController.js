@@ -2,6 +2,7 @@ import DomUtils from '../util/DomUtils';
 import XhrUtils from '../util/XhrUtils';
 import Notification from '../model/Notification';
 import Button from '../model/Button';
+import Ken from '../model/Ken';
 
 export default class ContentScriptController {
 

@@ -1,0 +1,116 @@
+@mixin keyframes_($name) {
+   @keyframes #{$name}{
+    @content
+  }
+}
+@mixin anim_($animName, $steps, $animNbr, $animParams) {
+  .#{$animName} {
+    @content;
+    animation: $animName steps($steps) $animParams;
+  }
+  @include keyframes_($animName) {
+    from {
+      background-position: 0 (-$spriteHeight * ($animNbr - 1));
+    }
+    to {
+      background-position: -($spriteWidth * $steps) (-$spriteHeight * ($animNbr - 1));
+    }
+  }
+}
+.flip {
+  transform: scaleX(-1);
+}
+// sprite dimensions
+$spriteWidth: 70px;
+$spriteHeight: 80px; // ken character
+
+:root {
+  --ken-top: 250px;
+}
+.hadoken,
+.ken {
+  position: fixed;
+  top: var(--ken-top, 150px);
+  // garoon header is at 1000
+  z-index: 1001;
+  transform: translateX(90px);
+  width: $spriteWidth;
+  height: $spriteHeight;
+  background-image: url('chrome-extension://__MSG_@@extension_id__/assets/ken.png');
+  // shadow
+  &:before {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    bottom: -2px;
+    left: 17px;
+    right: 17px;
+    height: 6px;
+    background-color: rgba(0, 0, 0, .4);
+    border-radius: 50%;
+    box-shadow: 0 0 5px;
+  }
+}
+.hadoken.explode:before {
+  background-color: transparent;
+  box-shadow: none;
+}
+/* ken's hadoken */
+@include anim_($animName: hadoken, $steps: 2, $animNbr: 5, $animParams: .15s infinite) {
+   @extend .ken;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin-left: 0; // default margin-left
+  background-position: 140px 320px; // default background position
+  transition: margin 6s linear;
+  &:before {
+    left: 25px;
+    right: 25px;
+  }
+  // triggering the movement with this class
+}
+/* ken's hadoken impact explosion */
+@include anim_($animName: explode, $steps: 4, $animNbr: 6, $animParams: .5s 1);
+/* stance */
+@include anim_($animName: stance, $steps: 4, $animNbr: 2, $animParams: .5s infinite);
+/* hado - must be declared AFTER .stance */
+@include anim_($animName: hado, $steps: 4, $animNbr: 1, $animParams: .5s infinite);
+/* punch */
+@include anim_($animName: punch, $steps: 3, $animNbr: 3, $animParams: .15s infinite);
+/* walking */
+@include anim_($animName: walk, $steps: 5, $animNbr: 4, $animParams: .5s infinite);
+/* kick */
+@include anim_($animName: kick, $steps: 5, $animNbr: 7, $animParams: .5s infinite);
+/* reverse kick */
+@include anim_($animName: reversekick, $steps: 5, $animNbr: 8, $animParams: .5s infinite);
+/* kneel down */
+@include anim_($animName: kneel, $steps: 1, $animNbr: 10, $animParams: .2s infinite);
+/* jump */
+@include anim_($animName: jump, $steps: 7, $animNbr: 9, $animParams: 1s infinite) {
+  transition: top 0.5s cubic-bezier(0.990, 0.005, 0.000, 0.420);
+  top: calc(var(--ken-top, 150px) - 113px);
+  &.down {
+    top: var(--ken-top, 150px);
+  }
+}
+/* shoryuken */
+@include anim_($animName: shoryuken, $steps: 7, $animNbr: 1, $animParams: 1s infinite) {
+  height: 110px;
+  background-image: url('chrome-extension://__MSG_@@extension_id__/assets/ken-shoryuken.png');
+  transition: top 0.5s cubic-bezier(0.990, 0.005, 0.000, 0.420);
+  top: calc(var(--ken-top, 150px) - 113px);
+  &.down {
+    top: var(--ken-top, 150px);
+  }
+}
+/* tatsumaki senpuu kyaku */
+@include anim_($animName: tatsumaki, $steps: 13, $animNbr: 1, $animParams: 2s infinite) {
+  height: 110px;
+  background-image: url('chrome-extension://__MSG_@@extension_id__/assets/ken-tatsumaki-senpuu-kyaku.png');
+  transition: top 0.2s cubic-bezier(0.990, 0.005, 0.000, 0.420);
+  top: calc(var(--ken-top, 150px) - 20px);
+  &.down {
+    top: var(--ken-top, 150px);
+  }
+}
