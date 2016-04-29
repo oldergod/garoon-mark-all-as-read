@@ -19,17 +19,15 @@ export default class Ken {
   }
 
   newAnimationIterationPromise() {
-    // console.log('newAnimationIterationPromise', this, this.resolver_);
     return new Promise((resolve, _) => {
       this.resolver_ = () => {
-        // console.log('it is resolved!');
+  
         resolve(this.hadoken_);
       };
     });
   }
 
   resolveAnimationIterationPromise(evt) {
-    // console.log('resolveAnimationIterationPromise', evt, this, this.resolver_);
     if (this.resolver_) {
       this.resolver_();
       this.resolver_ = null;
@@ -37,17 +35,15 @@ export default class Ken {
   }
 
   newTransitionEndPromise() {
-    // console.log('newTransitionEndPromise', this, this.resolver_);
     return new Promise((resolve, _) => {
       this.resolver_ = () => {
-        // console.log('it is resolved!');
+  
         resolve(this.hadoken_);
       };
     });
   }
 
   resolveTransitionEndPromise(evt) {
-    // console.log('resolveTransitionEndPromise', evt, this, this.resolver_);
     if (this.resolver_) {
       this.resolver_();
       this.resolver_ = null;
@@ -62,7 +58,6 @@ export default class Ken {
   }
 
   resetWalk(evt) {
-    // console.log('resetWalk');
     this.element.style.transition = '';
     this.element.classList.remove(Ken.STANCES.MOVING, Ken.STANCES.WALK);
     this.element.removeEventListener('transitionend', this.resetWalkBound_);
@@ -177,7 +172,6 @@ export default class Ken {
 
     const action = this.currentAction_;
     this.currentAction_ = null;
-    // console.log('unapplying', action, evt);
 
     if (action.jumpAction) {
       this.element.classList.remove(Ken.STANCES.DOWN);
