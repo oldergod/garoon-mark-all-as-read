@@ -5,7 +5,6 @@ import Button from '../model/Button';
 import Ken from '../model/Ken';
 
 export default class ContentScriptController {
-
   constructor() {
     this.targetNode = document.getElementById('popup_notification_header');
     if (!this.targetNode) {

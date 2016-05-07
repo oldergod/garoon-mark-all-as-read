@@ -1,5 +1,6 @@
 import Ken from './Ken';
 import Notification from '../model/Notification';
+import XhrUtils from '../util/XhrUtils';
 
 export default class Button {
   constructor() {
@@ -128,10 +129,7 @@ export default class Button {
     const unreadLeft = parseInt(span.innerText, 10);
     if (unreadLeft > 1) {
       span.innerText = (unreadLeft - 1).toString();
-      fetch('/g/grn/ajax_get_data_notification.csp', {
-        method: 'POST',
-        credentials: 'include'
-      });
+      XhrUtils.updateNotificationCountCookies();
     } else {
       Button.emptyNotificationNumber(span);
     }
