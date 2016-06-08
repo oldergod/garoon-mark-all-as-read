@@ -15,3 +15,5 @@ gulp
 # prod
 gulp prod
 ```
+
+Ken stripes are copyrighted to Capcom : Street Fighter® ©CAPCOM U.S.A., INC. ALL RIGHTS RESERVED.
