@@ -11,7 +11,7 @@ export default class Button {
   static get DEBUG() {
     // TODO(benoit) find a real system to deal with this...
     // if possible manageable from the gulpfile
-    return false;
+    return true;
   }
 
   static get CROSS_WRAPPER_CLASSNAME() {
