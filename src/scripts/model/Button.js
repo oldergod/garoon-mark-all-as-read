@@ -11,7 +11,7 @@ export default class Button {
   static get DEBUG() {
     // TODO(benoit) find a real system to deal with this...
     // if possible manageable from the gulpfile
-    return true;
+    return false;
   }
 
   static get CROSS_WRAPPER_CLASSNAME() {
@@ -65,9 +65,10 @@ export default class Button {
     const notificationTopDiv = this.element_.closest(`.${Notification.DIV_CLASSNAME}`);
 
     // some random
-    if (+new Date % 30 === 0) {
-      return this.closeNotificationDomSF_(notificationTopDiv);
-    }
+    // TODO(benoit) try to find some other sprites ?
+    // if (+new Date % 30 === 0) {
+    //   return this.closeNotificationDomSF_(notificationTopDiv);
+    // }
 
     return Button.closeNotificationDom(notificationTopDiv);
   }
