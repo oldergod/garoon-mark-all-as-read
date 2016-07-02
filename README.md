@@ -20,8 +20,6 @@ gulp
 gulp prod
 ```
 
-[travis-image]: https://travis-ci.org/oldergod/garoon-mark-all-as-read.svg?branch=dev
-[travis-url]: https://travis-ci.org/oldergod/garoon-mark-all-as-read
 [deps-image]: https://david-dm.org/oldergod/garoon-mark-all-as-read.svg
 [deps-url]: https://david-dm.org/oldergod/garoon-mark-all-as-read
 [dev-deps-image]: https://david-dm.org/oldergod/garoon-mark-all-as-read/dev-status.svg
