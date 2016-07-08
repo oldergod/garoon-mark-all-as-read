@@ -66,8 +66,9 @@ function buildBundle(bundleName) {
     .pipe(buffer());
 
   if (isProd) {
-    b = b.pipe(replace(/@DEBUG-ON@/g, '@DEBUG-OFF@'))
-        .pipe(uglify().on('error', gutil.log.bind(gutil, 'Uglify Error')));
+    b = b.pipe(uglify().on('error', gutil.log.bind(gutil, 'Uglify Error')));
+  } else {
+    b = b.pipe(replace(/@DEBUG-OFF@/g, '@DEBUG-ON@'))
   }
 
   return b.pipe(license('MIT', {

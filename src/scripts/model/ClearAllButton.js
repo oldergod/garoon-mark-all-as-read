@@ -51,7 +51,7 @@ export default class ClearAllButton extends Button {
    * @return {Promise<boolean>}
    */
   postMarkAllAsRead_(requestToken) {
-    if (Button.DEBUG == '@DEBUG-ON@') {
+    if (Button.debugMode()) {
       return Promise.resolve(true);
     }
     return XhrUtils.postMarkAllAsRead(requestToken, this.notifications_);
