@@ -21,7 +21,7 @@ export default class FallbackButton extends Button {
   }
 
   fetch() {
-    if (Button.DEBUG) {
+    if (Button.DEBUG == '@DEBUG-ON@') {
       return Promise.resolve(true);
     }
     return window.fetch(this.fetchUrl_, {

@@ -28,7 +28,7 @@ export default class NtfButton extends Button {
    * @return {Promise<boolean>}
    */
   postMarkAsRead_(requestToken) {
-    if (Button.DEBUG) {
+    if (Button.DEBUG == '@DEBUG-ON@') {
       return Promise.resolve(true);
     }
     return XhrUtils.postMarkAsRead(requestToken, this.notification_);

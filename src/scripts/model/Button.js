@@ -9,9 +9,7 @@ export default class Button {
   }
 
   static get DEBUG() {
-    // TODO(benoit) find a real system to deal with this...
-    // if possible manageable from the gulpfile
-    return true;
+    return '@DEBUG-ON@';
   }
 
   static get CROSS_WRAPPER_CLASSNAME() {
@@ -65,7 +63,7 @@ export default class Button {
     const notificationTopDiv = this.element_.closest(`.${Notification.DIV_CLASSNAME}`);
 
     // no special meaning, some random only
-    if (+new Date % 30 === 0) {
+    if (Button.DEBUG == '@DEBUG-ON@' || +new Date % 30 === 0) {
       return this.closeNotificationDomAkabei_(notificationTopDiv);
     }
 

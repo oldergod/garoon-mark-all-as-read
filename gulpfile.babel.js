@@ -8,9 +8,9 @@ import buffer from 'vinyl-buffer';
 import bump from 'gulp-bump';
 import del from 'del';
 import gutil from 'gulp-util';
-import jshint from 'gulp-jshint';
 import license from 'gulp-license';
 import livereload from 'gulp-livereload';
+import replace from 'gulp-replace';
 import rename from 'gulp-rename';
 import runSequence from 'run-sequence';
 import sass from 'gulp-sass';
@@ -21,7 +21,6 @@ import zip from 'gulp-zip';
 
 const stylesSourcePath = './src/styles/**/*.scss';
 const scriptsSourcePath = './src/scripts/**/*.js';
-const gulpfilePath = './gulpfile.babel.js';
 const manifestPath = './src/manifest.json';
 const manifestDebugPath = './src/manifest_debug.json';
 const assetsPath = './src/assets/**/*';
@@ -67,7 +66,8 @@ function buildBundle(bundleName) {
     .pipe(buffer());
 
   if (isProd) {
-    b = b.pipe(uglify().on('error', gutil.log.bind(gutil, 'Uglify Error')));
+    b = b.pipe(replace(/@DEBUG-ON@/g, '@DEBUG-OFF@'))
+        .pipe(uglify().on('error', gutil.log.bind(gutil, 'Uglify Error')));
   }
 
   return b.pipe(license('MIT', {
@@ -75,20 +75,6 @@ function buildBundle(bundleName) {
     tiny: true
   })).pipe(gulp.dest('./target/scripts'));
 }
-
-gulp.task('jshint', () => {
-  return gulp.src([scriptsSourcePath, gulpfilePath])
-    .pipe(jshint({
-      browser: true,
-      curly: true,
-      eqeqeq: true,
-      eqnull: true,
-      esnext: true,
-      laxbreak: true,
-      laxcomma: true
-    }))
-    .pipe(jshint.reporter('jshint-stylish'));
-});
 
 gulp.task('clean', (done) => {
   if (isProd) {
