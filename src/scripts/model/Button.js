@@ -1,4 +1,4 @@
-import Ken from './Ken';
+import Akabei from './Akabei';
 import Notification from '../model/Notification';
 import XhrUtils from '../util/XhrUtils';
 
@@ -64,37 +64,26 @@ export default class Button {
   closeNotificationDom_() {
     const notificationTopDiv = this.element_.closest(`.${Notification.DIV_CLASSNAME}`);
 
-    // some random
-    // TODO(benoit) try to find some other sprites ?
-    // if (+new Date % 30 === 0) {
-    //   return this.closeNotificationDomSF_(notificationTopDiv);
-    // }
+    // no special meaning, some random only
+    if (+new Date % 30 === 0) {
+      return this.closeNotificationDomPacman_(notificationTopDiv);
+    }
 
     return Button.closeNotificationDom(notificationTopDiv);
   }
 
-  closeNotificationDomSF_(notificationTopDiv) {
+  closeNotificationDomPacman_(notificationTopDiv) {
     const ntfBoundingRect = notificationTopDiv.getBoundingClientRect();
     const ntfMiddleTop = ntfBoundingRect.top + ntfBoundingRect.height / 2;
-    const kenTop = ntfMiddleTop - Ken.HEIGHT / 2;
-    const hadoHitAtY = ntfBoundingRect.left + 50;
+    const akabeiTop = ntfMiddleTop - Akabei.HEIGHT / 2;
+    const akabeiHitAtY = ntfBoundingRect.left;
 
-    const ken = new Ken(kenTop);
-    document.body.appendChild(ken.createDom());
-    return ken.walkFromToX({
-        from: -50,
-        to: 100,
-        duration: 800,
-      })
-      .then(() => ken.hadoken())
-      .then((hado) => hado.hitAtY(hadoHitAtY))
+    const akabei = new Akabei(document.body, akabeiTop);
+    console.log(akabei)
+    return Promise.resolve(akabei.render())
+      .then(() => akabei.hitAtY(akabeiHitAtY))
       .then(() => Button.closeNotificationDom(notificationTopDiv))
-      .then(() => ken.walkFromToX({
-        from: 100,
-        to: -50,
-        duration: 800,
-      }))
-      .then(() => Ken.remove(ken));
+      .then(() => Akabei.remove(akabei));
   }
 
   static closeNotificationDom(ntfTopDiv) {
