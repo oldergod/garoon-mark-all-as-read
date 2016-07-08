@@ -1,0 +1,51 @@
+:root {
+  --akabei-top: 250px;
+  --akabei-translate-x: -100px;
+}
+
+@keyframes spinningOut {
+  from {
+    transform: translateX(var(--akabei-translate-x, -100px)) rotateZ(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(var(--akabei-translate-x, -100px)) rotateZ(200deg);
+    opacity: 0;
+  }
+}
+
+.akabei {
+  position: fixed;
+  top: var(--akabei-top, 150px);
+  // garoon header is at 1000
+  z-index: 1001;
+  transform: translateX(-50px);
+  width: 30px;
+  height: 30px;
+  opacity: 1;
+  background-image: url('chrome-extension://__MSG_@@extension_id__/assets/akabei.png');
+  // shadow
+  &::before {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    height: 6px;
+    width: 30px;
+    background-color: rgba(0, 0, 0, .4);
+    border-radius: 50%;
+    box-shadow: 0 0 5px;
+  }
+
+  &.explode {
+    animation-duration: 300ms;
+    animation-timing-function: cubic-bezier(0, 0, .3, 1);
+    animation-name: spinningOut;
+
+    &::before {
+      background-color: transparent;
+      box-shadow: none;
+    }
+  }
+}

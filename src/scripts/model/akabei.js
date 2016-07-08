@@ -1,18 +1,27 @@
 'use strict';
 
-export default class Hadoken {
-  constructor(ken) {
-    this.ken_ = ken;
+export default class Akabei {
+  constructor(parent_ = parent_, akabeiTop) {
+    this.parent_ = parent_;
     this.hasHit_ = false;
     this.hitAt_ = null;
     this.resolver_ = null;
-    this.currentX = 90;
+    this.currentX = 0;
     this.startX = 0;
+    this.element = null;
+
+    if (akabeiTop) {
+      document.documentElement.style.setProperty('--akabei-top', akabeiTop + 'px');
+    }
+  }
+
+  static get HEIGHT() {
+    return '30';
   }
 
   createDom() {
     this.element = document.createElement('div');
-    this.element.classList.add('hadoken');
+    this.element.classList.add('akabei');
     return this.element;
   }
 
@@ -20,13 +29,14 @@ export default class Hadoken {
     if (!this.element) {
       this.createDom();
     }
-    this.ken_.element.appendChild(this.element);
+    this.parent_.appendChild(this.element);
 
     const boundingRect = this.element.getBoundingClientRect();
     this.startX = boundingRect.left;
+    this.currentX = this.startX;
 
     function step() {
-      if (this.hitAt_ && (this.startX + this.currentX) > this.hitAt_) {
+      if (this.hitAt_ && this.currentX >= this.hitAt_) {
         this.hit();
         return this.resolver_();
       }
@@ -52,8 +62,16 @@ export default class Hadoken {
       this.hasHit_ = true;
 
       requestAnimationFrame(() => {
+        const translateX = this.element.getBoundingClientRect().left;
+        document.documentElement.style.setProperty('--akabei-translate-x', translateX + 'px');
+        // TODO(benoit) add some effect fomr akabei?
         this.element.classList.add('explode');
       });
     }
+  }
+
+  static remove(akabei) {
+    akabei.element.remove();
+    akabei = null;
   }
 }
