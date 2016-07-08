@@ -66,20 +66,19 @@ export default class Button {
 
     // no special meaning, some random only
     if (+new Date % 30 === 0) {
-      return this.closeNotificationDomPacman_(notificationTopDiv);
+      return this.closeNotificationDomAkabei_(notificationTopDiv);
     }
 
     return Button.closeNotificationDom(notificationTopDiv);
   }
 
-  closeNotificationDomPacman_(notificationTopDiv) {
+  closeNotificationDomAkabei_(notificationTopDiv) {
     const ntfBoundingRect = notificationTopDiv.getBoundingClientRect();
     const ntfMiddleTop = ntfBoundingRect.top + ntfBoundingRect.height / 2;
     const akabeiTop = ntfMiddleTop - Akabei.HEIGHT / 2;
     const akabeiHitAtY = ntfBoundingRect.left;
 
     const akabei = new Akabei(document.body, akabeiTop);
-    console.log(akabei)
     return Promise.resolve(akabei.render())
       .then(() => akabei.hitAtY(akabeiHitAtY))
       .then(() => Button.closeNotificationDom(notificationTopDiv))
