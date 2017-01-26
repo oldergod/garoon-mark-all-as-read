@@ -9,7 +9,7 @@
     "browserify": "^13.1.0",
     "del": "^2.2.2",
     "gulp": "^3.9.0",
-    "gulp-bump": "^2.4.0",
+    "gulp-bump": "^2.6.0",
     "gulp-license": "^1.0.0",
     "gulp-livereload": "^3.8.1",
     "gulp-rename": "^1.2.2",
