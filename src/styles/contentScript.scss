@@ -30,6 +30,8 @@
 }
 .maar-clear-all-wrapper {
   float: right;
+  position: absolute;
+  right: 0px;
 }
 .maar-clear-all {
   background: url('chrome-extension://__MSG_@@extension_id__/assets/ic_clear_all_18dp.png') center center no-repeat;
