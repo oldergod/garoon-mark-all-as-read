@@ -1,4 +1,5 @@
 .maar-cross-wrapper {
+  margin-left: 6px;
   float: right;
   border-radius: 50%;
   border: 1px solid #aaa;
@@ -26,15 +27,19 @@
   will-change: opacity;
   &:hover {
     opacity: 0.8;
+    background-color: transparent;
+    border: none;
+  }
+  &:focus {
+    outline: none;
   }
 }
 .maar-clear-all-wrapper {
   float: right;
   position: absolute;
-  right: 0px;
+  right: 38px;
 }
 .maar-clear-all {
-  background: url('chrome-extension://__MSG_@@extension_id__/assets/ic_clear_all_18dp.png') center center no-repeat;
   border: none;
   height: 27px;
   width: 27px;
@@ -49,6 +54,9 @@
   }
   &:active {
     transform: rotate(380deg);
+  }
+  span.icon_inline_grn.icon_only_grn {
+    background: url('chrome-extension://__MSG_@@extension_id__/assets/ic_clear_all_18dp.png') center center no-repeat;
   }
 }
 $totalDuration: 250ms;

@@ -120,7 +120,6 @@ export default class Button {
     const unreadLeft = parseInt(span.innerText, 10);
     if (unreadLeft > 1) {
       span.innerText = (unreadLeft - 1).toString();
-      XhrUtils.updateNotificationCountCookies();
     } else {
       Button.emptyNotificationNumber(span);
     }
@@ -136,7 +135,7 @@ export default class Button {
     //   - if no, just hide it (but still say garoon we 既読化 them)
 
     // TODO(benoit) 2016/2/16 call API check issues
-    document.querySelector('#popup_notification_header .cloudHeader-grnNotification-update-grn').click();
+    document.querySelector('#popup_notification_header .js_refresh').click();
 
     // we close the notifications popup
     // document.querySelector('.cloudHeader-dropdownMenu-grn').classList.remove('cloudHeader-dropdownMenu-open-grn');

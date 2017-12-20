@@ -56,6 +56,6 @@ export default class DomUtils {
   }
 
   static renderClearAllButton(button) {
-    button.renderBefore(document.querySelector('.cloudHeader-grnNotification-update-grn'));
+    button.renderBefore(document.querySelector('.action_button_base_grn'));
   }
 }

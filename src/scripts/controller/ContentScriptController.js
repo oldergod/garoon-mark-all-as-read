@@ -14,7 +14,7 @@ export default class ContentScriptController {
       mutations.forEach(mutation => {
         // If we have more than seven added nodes,
         // then we are getting unread notifications.
-        if (mutation.addedNodes.length > 7) {
+        if (mutation.addedNodes.length > 6) {
           this.generateNtfMaarButtons();
         }
       });
@@ -42,5 +42,18 @@ export default class ContentScriptController {
       .catch(e => {
         console.log(e);
       });
+      document.querySelector('.js_refresh')
+        .addEventListener('click',
+            e => setTimeout(
+              XhrUtils.getUnreadNotifications()
+                .then(Notification.fromJson)
+                .then(DomUtils.addNtfButtons)
+                .then(DomUtils.addFallbackButtons)
+                .catch(e => {
+                  console.log(e);
+                }),
+                500
+            )
+        );
   }
 }

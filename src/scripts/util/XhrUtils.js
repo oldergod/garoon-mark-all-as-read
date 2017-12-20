@@ -193,11 +193,4 @@ export default class XhrUtils {
   static RequestTokenAsSoapParameter(requestToken) {
     return `<request_token>${requestToken}</request_token>`;
   }
-
-  static updateNotificationCountCookies() {
-    return fetch('/g/grn/ajax_get_data_notification.csp', {
-      method: 'POST',
-      credentials: 'include',
-    });
-  }
 }
